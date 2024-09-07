@@ -1,0 +1,50 @@
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Mirza:wght@400;500;600;700&display=swap');
+
+
+
+
+
+#background {
+    position: relative;
+    height: 100%;
+    background: none;
+  }
+  
+  #background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(./assets/image/ava1.png);
+    /* height: 100vh; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1; /* Place it below the content */
+  }
+  
+  #background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(203, 198, 205, 0.8);
+    z-index: 2; /* Place it above the background image */
+  }
+  
+  .content {
+    position: relative;
+    z-index: 3; /* Place it above the background and overlay */
+  }
