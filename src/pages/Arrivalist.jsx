@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
 import { useNavigate } from 'react-router-dom';
+import Cloth from '../category/Cloth';
+import Newsletter from '../component/Newsletter';
+import Footer from '../component/Footer';
 
 const Arrivalist = () => {
   const userDetails = localStorage.getItem('user');
@@ -34,7 +37,7 @@ const Arrivalist = () => {
   return (
     <div className='container mx-auto p-8'>
       <div className='grid lg:grid-cols-2 gap-8'>
-        <div className='flex gap-8'>
+        <div className='lg:flex flex-auto md:flex gap-8'>
           <div>
             <img
               src={savedProduct?.images?.side}
@@ -73,11 +76,7 @@ const Arrivalist = () => {
             alt="Thumbnail"
           />
         }
-          {/* <div className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'>
-            <img className="w-full h-full object-cover" src={selectedImage} alt="Main" />
-          </div> */}
         </div>
-
         <div className='flex flex-col justify-between'>
           <div>
             <h1 className='text-3xl font-bold mb-4'>{savedProduct?.name}</h1>
@@ -106,6 +105,9 @@ const Arrivalist = () => {
       </div>
       <Productreviewpage userProduct={userProduct} setUserProduct={setUserProduct} />
       {/* <Productreviewpage/> */}
+      <Cloth/>
+      <Newsletter/>
+      <Footer/>
     </div>
   );
 };

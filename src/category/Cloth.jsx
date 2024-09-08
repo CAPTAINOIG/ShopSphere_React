@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../axiosInstance'
-import ProductCard from './ProductCard'
+// import ProductCard from './ProductCard'
+import { useNavigate } from 'react-router-dom'
 
 const Cloth = () => {
+  const navigate = useNavigate();
     const [clothCategory, setClothCategory]= useState([])
     // console.log('clothCategory', clothCategory);
     
     const handleProductClick = (product) => {
       const productName = product.name.toLowerCase().replace(/\s+/g, '-');
       localStorage.setItem('selectedProduct', JSON.stringify(product));
-      navigate(`/arrival/${productName}`);
+      navigate(`/product/${productName}`);
     };
 
     useEffect(() => {

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
 import { useNavigate } from 'react-router-dom';
+import Cloth from '../category/Cloth';
+import Newarrivals from '../category/Newarrivals';
+import Footer from '../component/Footer';
+import Newsletter from '../component/Newsletter';
 
 const ProductList = () => {
   const userDetails = localStorage.getItem('user');
@@ -34,7 +38,7 @@ const ProductList = () => {
   return (
     <div className='container mx-auto p-8'>
       <div className='grid lg:grid-cols-2 gap-8'>
-        <div className='flex gap-8'>
+      <div className='lg:flex flex-auto md:flex gap-8'>
           <div>
             <img
               src={savedProduct?.images?.side}
@@ -105,7 +109,9 @@ const ProductList = () => {
         </div>
       </div>
       <Productreviewpage userProduct={userProduct} setUserProduct={setUserProduct} />
-      {/* <Productreviewpage/> */}
+      <Newarrivals />
+      <Newsletter/>
+      <Footer/>
     </div>
   );
 };
