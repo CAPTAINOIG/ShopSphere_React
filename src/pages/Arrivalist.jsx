@@ -3,14 +3,14 @@ import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
 import { useNavigate } from 'react-router-dom';
 
-const ProductList = () => {
+const Arrivalist = () => {
   const userDetails = localStorage.getItem('user');
   const navigate = useNavigate();
   
   const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
   const [userProduct, setUserProduct] = useState({});
   const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-  // console.log(('savedProduct'), savedProduct);
+  console.log(('savedProduct'), savedProduct);
   
   useEffect(() => {
     if (savedProduct) {
@@ -110,4 +110,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Arrivalist;

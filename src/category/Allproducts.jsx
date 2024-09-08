@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Allproducts = ({allProducts, setAllProducts}) => {
   // const [allProducts, setAllProducts] = useState([]);
+  // const [productName, setProductName] = useState('');
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchProducts();
@@ -11,7 +15,7 @@ const Allproducts = ({allProducts, setAllProducts}) => {
   const fetchProducts = async () => {
     try {
       const response = await axiosInstance.get('/products');
-      // console.log(response.data);
+      // console.log(response.data.name);
       
       setAllProducts(response.data);
     } catch (error) {
@@ -19,7 +23,30 @@ const Allproducts = ({allProducts, setAllProducts}) => {
     }
   };
 
+  const handleClick = (product) => {
+    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    navigate(`/product/${productName}`);
+  };
+
+
   return (
+
+
+  //   <>
+  //   <h3 className='text-center text-4xl font-bold'>Smartphones</h3>
+  // <div className='p-6 bg-gray-100'>
+  //   {smartPhonesCat?.length === 0 ? (
+  //     <p className='text-center text-lg font-semibold'>No product found</p>
+  //   ) : (
+  //     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+  //       {smartPhonesCat.map((item, index) => (
+  //         <ProductCard key={index} product={item} />
+  //       ))}
+  //     </div>
+  //   )}
+  // </div>
+  //   </>
     <>
       <h3 className='text-center text-4xl font-bold my-6'>Explore Our Collection</h3>
       <div className="">
@@ -28,7 +55,7 @@ const Allproducts = ({allProducts, setAllProducts}) => {
             <p>No allProducts found</p>
           ) : (
             allProducts.map((product, i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-lg shadow-md p-2 hover:shadow-lg transition-shadow duration-300">
+              <div onClick={() => handleClick(product)} key={i} className="bg-white border cursor-pointer border-gray-200 rounded-lg shadow-md p-2 hover:shadow-lg transition-shadow duration-300">
                 {product?.images && product?.images?.front ? (
                   <img 
                     src={product?.images?.front} 

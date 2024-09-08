@@ -5,6 +5,8 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const handleClick = (product) => {
+    console.log(product);
+    
     const productName = product.name.toLowerCase().replace(/\s+/g, '-');
     localStorage.setItem('selectedProduct', JSON.stringify(product));
     navigate(`/product/${productName}`);

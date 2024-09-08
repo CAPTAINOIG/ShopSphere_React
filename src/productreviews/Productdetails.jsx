@@ -1,8 +1,13 @@
 import React from 'react';
 
 const userProductdetails = ({ userProduct }) => {
-  console.log('userProduct:', userProduct);
+  // console.log('userProduct:', userProduct);
     
+  const handleClick = (product) => {
+    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    navigate(`/product/${productName}`);
+  };
   return (
    
     <div className="p-4">

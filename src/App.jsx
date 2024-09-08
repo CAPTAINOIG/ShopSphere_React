@@ -8,6 +8,7 @@ import Upbar from './component/Upbar';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductList from './pages/ProductList';
+import Arrivalist from './pages/Arrivalist';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +32,7 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path="/product/:productName" element={<ProductList />} />
+        <Route path="/arrival/:productName" element={<Arrivalist />} />
       </Routes>
     </div>
   );

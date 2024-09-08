@@ -5,6 +5,7 @@ import Ratingreview from './Ratingreview';
 import Cloth from '../category/Cloth';
 import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
+import Newarrivals from '../category/Newarrivals';
 
 const Productreviewpage = ({userProduct, setUserProduct}) => {
   // console.log('User Product:', userProduct);
@@ -41,6 +42,7 @@ const Productreviewpage = ({userProduct, setUserProduct}) => {
       {productView === 'reviews' && <Ratingreview />}
       {productView === 'faqs' && <Faqs />}
       <Cloth />
+      <Newarrivals/>
       <Newsletter/>
       <Footer/>
     </>
