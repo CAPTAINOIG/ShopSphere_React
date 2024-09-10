@@ -5,28 +5,87 @@ import { useNavigate } from 'react-router-dom';
 import Cloth from '../category/Cloth';
 import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, increment } from '../Redux/counterSlice';
 
-const Arrivalist = () => {
-  const userDetails = localStorage.getItem('user');
-  const navigate = useNavigate();
+    const Arrivalist = () => {
+    const store = useSelector((state) => state.counterReducer.cart);
+    // console.log(store);
   
-  const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
-  const [userProduct, setUserProduct] = useState({});
-  const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-  // console.log(('savedProduct'), savedProduct);
+    const userDetails = JSON?.parse(localStorage?.getItem('user'));
+    // console.log(userDetails);
+    const token = JSON?.parse(localStorage?.getItem('shoppinToken'));
+    // console.log(token);
+    // const userId = JSON.parse(localStorage.getItem('userId'));
   
-  useEffect(() => {
-    if (savedProduct) {
-      setUserProduct(savedProduct);
-      // setSelectedImage(userProduct?.images?.front);
+  
+    const navigate = useNavigate();
+  
+    const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
+    const [userProduct, setUserProduct] = useState({});
+    const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+    // console.log(('savedProduct'), savedProduct);
+    // console.log(savedProduct.id);
+  
+  
+    const dispatch = useDispatch()
+    useEffect(() => {
+      if (savedProduct) {
+        setUserProduct(savedProduct);
+        // setSelectedImage(userProduct?.images?.front);
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (!token) {
+        navigate('/login')
+      }
+    }, [])
+  
+  
+    const handleCart = async () => {
+      if (!userDetails) {
+        console.log('User is not logged in.');
+        toast.error('You must be signed in to add items to your cart.');
+        return navigate('/login');
+      }
+      // const productId = userId;
+      // console.log(productId);
+  
+      const productItem = store?.find((item) => item?.id === savedProduct.id);
+      if (productItem) {
+        // console.log(productItem);
+        toast?.success('product added successfully');
+        if (productItem?.cartQuantity < productItem?.availableQuantity) {
+          // console.log('Incrementing product quantity');
+          dispatch(increment(productItem?.id));
+        } else {
+          // console.log('Cannot add more than available stock');
+          toast.error('Cannot add more than available stock');
+        };
+      }
+      else {
+        let newCart = {
+          id: savedProduct?.id,
+          name: savedProduct?.name,
+          price: savedProduct?.price,
+          promoPrice: savedProduct?.promoPrice,
+          cartQuantity: 1,
+          discountPercentage: savedProduct?.discountPercentage,
+          description: savedProduct?.description,
+          category: savedProduct?.category,
+          availableQuantity: savedProduct?.availableQuantity,
+          image1: savedProduct?.images?.front,
+          image2: savedProduct?.images?.back,
+          image3: savedProduct?.images?.side,
+          image4: savedProduct?.images?.additional,
+        }
+        // console.log(newCart);
+        toast?.success('product added successfully');
+        dispatch(addToCart(newCart));
+      }
     }
-  }, []); // Use an empty dependency array to run this only once on component mount
-
-  const handleCart = () => {
-    if (!userDetails) {
-      return navigate('/login');
-    }
-  };
 
   const handleImage = (newImage) => {
     setSelectedImage(newImage); // Update selected image on click

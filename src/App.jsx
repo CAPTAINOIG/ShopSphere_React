@@ -7,8 +7,10 @@ import Navbar from './component/Navbar';
 import Upbar from './component/Upbar';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import ProductList from './pages/ProductList';
 import Arrivalist from './pages/Arrivalist';
+import Cart from './pages/Cart';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,14 +33,16 @@ function App() {
     <div className='font-[Mirza]'>
       {/* Pass allProducts and setAllProducts to Navbar */}
       <Navbar openToggle={toggleIsOpen} allProducts={allProducts} setProducts={setAllProducts} />
-      {isOpen && <Upbar onClickHandler={handleClose} />}
+      {isOpen && <Upbar  allProducts={allProducts} setProducts={setAllProducts} />}
       <Routes>
         <Route path='/' element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path="/product/:productName" element={<ProductList />} />
         <Route path="/arrival/:productName" element={<Arrivalist />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
+      <ToastContainer/>
     </div>
   );
 }

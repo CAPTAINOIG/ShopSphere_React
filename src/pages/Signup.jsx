@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import axiosInstance from '../axiosInstance';
 import gif from '../assets/image/gif.gif';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 
@@ -85,7 +85,6 @@ const [loading, setLoading] = useState(false)
         </form>
       </div>
     </div>
-      <ToastContainer/>
     </>
   );
 };

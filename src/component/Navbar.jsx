@@ -1,16 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
 import Upbar from './Upbar';
 import Carousel from './Carousel';
 import { BsSearch } from 'react-icons/bs';
 import { FaCartShopping } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Navbar = ({ openToggle, allProducts }) => {
+  // console.log('All: ', allProducts);
+
+  const store = useSelector((state) => state.counterReducer.cart);
+  console.log(store.length);
+
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [totalProduct, setTotalProduct] = useState('');
+
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -42,6 +52,15 @@ const Navbar = ({ openToggle, allProducts }) => {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   }, [dropdownOpen]);
+
+
+  useEffect(() => {
+    setTotalProduct(store.length);
+  }, [store.length]);
+
+  const handleCartRoute = () =>{
+    navigate('/cart')
+  }
 
   const location = useLocation();
   const hiddenRoutes = ['/layout/home'];
@@ -104,17 +123,24 @@ const Navbar = ({ openToggle, allProducts }) => {
           )}
 
 
-          <div className='flex gap-2'>
-            <FaCartShopping className='mt-8 hidden lg:block' />
-            <Link to="/signin" className='hidden lg:block border me-5 mt-6 w-[150px] font-semibold border-black hover:border-black text-center py-1 text-black hover:text-white rounded-[6px] hover:bg-black'>Log in</Link>
+          <div onClick={handleCartRoute} className="flex  gap-7 cursor-pointer items-center me-5 relative">
+            <FaCartShopping className="mt-5 hidden lg:block" size={20} />
+            <span className="absolute  top-5 left-3 bg-pink-600 rounded-full text-[8px] text-white w-4 h-4 flex items-center justify-center">
+              <span className='hidden lg:block'>{totalProduct}</span>
+            </span>
+            <Link
+              to="/signin"
+              className="hidden lg:block border me-5 mt-6 w-[150px] font-semibold border-black text-center py-1 text-black hover:text-white rounded-[6px] hover:bg-black hover:border-black"
+            >
+              Log in
+            </Link>
           </div>
-
-          <button ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className='lg:hidden block mt-1 text-green-700 font-bold'>
+          <button ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className='lg:hidden block mt-1 text-black z-50 font-bold'>
             {openToggle ? <FaBars /> : <IoMdClose />}
           </button>
           {dropdownOpen && (
             <div ref={dropdown} className="absolute bg-white w-48 mt-2 p-2 shadow-md lg:hidden">
-              <Upbar />
+              <Upbar  allProducts={allProducts}/>
             </div>
           )}
         </div>

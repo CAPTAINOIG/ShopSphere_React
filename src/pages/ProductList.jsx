@@ -6,20 +6,21 @@ import Newarrivals from '../category/Newarrivals';
 import Footer from '../component/Footer';
 import Newsletter from '../component/Newsletter';
 // import axiosInstance from '../axiosInstance';
-// import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, increment } from '../Redux/counterSlice';
 
 
-const ProductList = () => {
-  const store = useSelector((state)=> state.counterReducer.cart);
-console.log(store);
 
-  const userDetails = JSON.parse(localStorage.getItem('user'));
+const ProductList = () => {
+  const store = useSelector((state) => state.counterReducer.cart);
+  // console.log(store);
+
+  const userDetails = JSON?.parse(localStorage?.getItem('user'));
   // console.log(userDetails);
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = JSON?.parse(localStorage?.getItem('shoppinToken'));
   // console.log(token);
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  // const userId = JSON.parse(localStorage.getItem('userId'));
 
 
   const navigate = useNavigate();
@@ -40,40 +41,39 @@ console.log(store);
   }, []);
 
   useEffect(() => {
-    if(!token){
-      localStorage.removeItem('token')
+    if (!token) {
       navigate('/login')
     }
   }, [])
-  
+
 
   const handleCart = async () => {
     if (!userDetails) {
       console.log('User is not logged in.');
-      // toast.error('You must be signed in to add items to your cart.');
+      toast.error('You must be signed in to add items to your cart.');
       return navigate('/login');
     }
-    const productId = userId;
-    console.log(productId);
+    // const productId = userId;
+    // console.log(productId);
 
-    const productItem = store.find((item) => item.id === savedProduct.id);
+    const productItem = store?.find((item) => item?.id === savedProduct.id);
     if (productItem) {
-      console.log(productItem);
-      if (productItem.cartQuantity < productItem.availableQuantity) {
-        console.log('Incrementing product quantity');
-        dispatch(increment(productItem.id));
+      // console.log(productItem);
+      toast?.success('product added successfully');
+      if (productItem?.cartQuantity < productItem?.availableQuantity) {
+        // console.log('Incrementing product quantity');
+        dispatch(increment(productItem?.id));
       } else {
-        console.log('Cannot add more than available stock');
-        // Optionally, show a toast notification or alert here
-      }
-      // localStorage.setItem('item', JSON.stringify(productItem)); // Optional for additional data storage
+        // console.log('Cannot add more than available stock');
+        toast.error('Cannot add more than available stock');
+      };
     }
     else {
       let newCart = {
-        id: savedProduct.id,
+        id: savedProduct?.id,
         name: savedProduct?.name,
         price: savedProduct?.price,
-        promoPrice: savedProduct?.promoPrice, 
+        promoPrice: savedProduct?.promoPrice,
         cartQuantity: 1,
         discountPercentage: savedProduct?.discountPercentage,
         description: savedProduct?.description,
@@ -84,9 +84,9 @@ console.log(store);
         image3: savedProduct?.images?.side,
         image4: savedProduct?.images?.additional,
       }
-      console.log(newCart);
+      // console.log(newCart);
+      toast?.success('product added successfully');
       dispatch(addToCart(newCart));
-      // toast.success('product added successfully');
     }
   }
 
@@ -197,7 +197,6 @@ console.log(store);
       <Newarrivals />
       <Newsletter />
       <Footer />
-      {/* <ToastContainer /> */}
     </div>
   );
 };

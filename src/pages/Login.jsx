@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { MdOutlineShoppingBag } from "react-icons/md";
 import gif from '../assets/image/gif.gif'
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axiosInstance from '../axiosInstance';
 
 
@@ -33,8 +33,8 @@ const Login = () => {
         setLoading(false);
         const userData = response?.data?.user.email;
         localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('token',  JSON.stringify (response.data.token));
-        localStorage.setItem('userId',  JSON.stringify (response.data.user._id));
+        localStorage.setItem('shoppinToken',  JSON.stringify (response.data.token));
+        // localStorage.setItem('userId',  JSON.stringify (response.data.user._id));
         navigate(`/product/${values.email}`);
       } catch (error) {
         console.log(error);
@@ -77,7 +77,6 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </div>
   );
 };
