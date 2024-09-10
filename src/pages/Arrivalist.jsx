@@ -13,7 +13,7 @@ const Arrivalist = () => {
   const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
   const [userProduct, setUserProduct] = useState({});
   const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-  console.log(('savedProduct'), savedProduct);
+  // console.log(('savedProduct'), savedProduct);
   
   useEffect(() => {
     if (savedProduct) {

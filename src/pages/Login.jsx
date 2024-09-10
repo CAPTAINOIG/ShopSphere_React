@@ -1,12 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import { MdOutlineShoppingBag } from "react-icons/md";
-
+import gif from '../assets/image/gif.gif'
+import { toast, ToastContainer } from 'react-toastify';
+import axiosInstance from '../axiosInstance';
 
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   let lower = new RegExp(`(?=.*[a-z])`);
   let upper = new RegExp(`(?=.*[A-Z])`);
@@ -14,15 +19,31 @@ const Login = () => {
   let length = new RegExp(`(?=.{8,})`);
 
   let formik = useFormik({
-    initialValues:{
+    initialValues: {
       email: '',
       password: '',
     },
-    onSubmit:(values)=>{
+    onSubmit: async (values) => {
       console.log(values);
+      setLoading(true);
+      try {
+        const response = await axiosInstance?.post('/login', values)
+        console.log(response);
+        toast.success(`${response?.data?.message}`)
+        setLoading(false);
+        const userData = response?.data?.user.email;
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token',  JSON.stringify (response.data.token));
+        localStorage.setItem('userId',  JSON.stringify (response.data.user._id));
+        navigate(`/product/${values.email}`);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        toast.error(`${error?.response?.data?.message}`)
+      }
     },
-    validationSchema:yup.object({
-      email: yup.string().email('Invalid email format').required( <span className='flex'><span>This field is required</span></span> ),
+    validationSchema: yup.object({
+      email: yup.string().email('Invalid email format').required(<span className='flex'><span>This field is required</span></span>),
       password: yup.string().matches(lower, "Must include lowercase letter").matches(upper, "Must include uppercase letter").matches(number, "Must include a number").matches(length, "Must not be less than 8 characters").required("This field is required"),
     })
   })
@@ -32,9 +53,8 @@ const Login = () => {
         <div className="preloader-icon animate-spin"></div>
       </div>
       <div className="content bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-      <div id="logo" className="mb-6 text-center">
-      <MdOutlineShoppingBag className='mx-auto text-center bg-pink-500 rounded-full p-3'  size={30}/>
-          
+        <div id="logo" className="mb-6 text-center">
+          <MdOutlineShoppingBag className='mx-auto text-center bg-pink-500 rounded-full p-3' size={30} />
         </div>
 
         <h5 className="text-center mb-6">Log in</h5>
@@ -47,14 +67,17 @@ const Login = () => {
             <input type="password" className="h-[50px] w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Password" name='password' onBlur={formik.handleBlur} onChange={formik.handleChange} />
             <span className='text-red-500 text-[12px]'>{formik.touched.password && formik.errors.password}</span>
           </div>
-          <button type='submit' className="btn btn-block w-full bg-pink-500 text-white py-3 rounded-md hover:bg-gray-200 hover:text-pink-500">Log in</button>
+          <button type='submit' className="btn btn-block w-full bg-pink-500 text-white py-3 rounded-md hover:bg-gray-200 hover:text-pink-500">
+            {loading ? <img src={gif} alt="" className='w-[25px] text-center mx-auto' /> : ('Log in')}
+          </button>
           <hr className="my-6" />
-          <p className="text-center text-gray-600 mb-4">Already have an account?</p>
+          <p className="text-center text-gray-600 mb-4">Don't have an account?</p>
           <div className='text-center border font-bold text-sm w-[40%] mx-auto border-gray-300 my-5 hover:bg-gray-400 hover:border-gray-300 rounded'>
-                <Link to="/signup">Register now!</Link>
-              </div>
+            <Link to="/signup">Register now!</Link>
+          </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

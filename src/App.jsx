@@ -14,6 +14,11 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
 
+  // FOR OTP PAGE 
+  // const handleOtpSubmit = (otp) => {
+  //   console.log('OTP entered:', otp);
+  //   // Handle OTP verification or submission here
+  // };
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
   };

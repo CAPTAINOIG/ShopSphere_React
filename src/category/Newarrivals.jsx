@@ -14,7 +14,7 @@ const Newarrivals = () => {
     const arrival = async () => {
         try {
             const response = await axiosInstance.get('/category/Tops')
-            console.log(response.data);
+            // console.log(response.data);
             setNewArrival(response.data.products);
         } catch (error) {
             console.log(error);   
@@ -22,7 +22,7 @@ const Newarrivals = () => {
     }
 
     const handleProductClick = (product) => {
-        console.log(product);
+        // console.log(product);
         const productName = product.name.toLowerCase().replace(/\s+/g, '-');
         localStorage.setItem('selectedProduct', JSON.stringify(product));
         navigate(`/arrival/${productName}`);
