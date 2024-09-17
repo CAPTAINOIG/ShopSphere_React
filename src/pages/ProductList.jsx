@@ -90,32 +90,6 @@ const ProductList = () => {
     }
   }
 
-  // try {
-  //     const response = await axiosInstance.post('/add-to-cart', {
-  //         userId: userDetails.id,
-  //         productId,
-  //         quantity,
-  //     }, {
-  //         headers: {
-  //             Authorization: `Bearer ${token}`, 
-  //             "Content-Type": "application/json",
-  //         },
-  //     });
-
-  //     if (response.status === 200) {
-  //         toast.success('Item added to cart successfully!');
-  //     } else {
-  //         toast.error(response.data.message || 'Failed to add item to cart.');
-  //     }
-  // } catch (error) {
-  //     console.error('Error adding to cart:', error);
-  //     toast.error('An error occurred while adding to the cart.');
-  // }
-
-
-
-
-
 
   const handleImage = (newImage) => {
     setSelectedImage(newImage); // Update selected image on click

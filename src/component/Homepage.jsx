@@ -51,15 +51,15 @@ const Homepage = () => {
                     <Link className='bg-black rounded-full p-3 px-7 hover:bg-pink-600 hover:text-white text-white ' to="/login">Shop Now</Link>
                     <div className='flex lg:gap-10 md:gap-10 my-5'>
                         <div>
-                            <p className='lg:text-5xl md:text-6xl text-3xl font-bold'>{count.toLocaleString()} +</p>
+                            <p className='lg:text-5xl md:text-6xl text-2xl font-bold'>{count.toLocaleString()} +</p>
                             <p>international brands</p>
                         </div>
                         <div>
-                            <p className='lg:text-5xl md:text-6xl text-3xl font-bold'>{quality.toLocaleString()} +</p>
+                            <p className='lg:text-5xl md:text-6xl text-2xl font-bold'>{quality.toLocaleString()} +</p>
                             <p>High Quality Products</p>
                         </div>
                         <div>
-                            <p className='lg:text-5xl md:text-6xl text-3xl font-bold'>{customer.toLocaleString()} +</p>
+                            <p className='lg:text-5xl md:text-6xl text-2xl font-bold'>{customer.toLocaleString()} +</p>
                             <p>Happy Customers</p>
                         </div>
                     </div>

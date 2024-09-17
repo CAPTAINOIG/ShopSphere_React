@@ -12,7 +12,7 @@ const Navbar = ({ openToggle, allProducts }) => {
   // console.log('All: ', allProducts);
 
   const store = useSelector((state) => state.counterReducer.cart);
-  console.log(store.length);
+  // console.log(store.length);
 
   const navigate = useNavigate();
 
@@ -123,7 +123,7 @@ const Navbar = ({ openToggle, allProducts }) => {
           )}
 
 
-          <div onClick={handleCartRoute} className="flex  gap-7 cursor-pointer items-center me-5 relative">
+          <div onClick={handleCartRoute} className="flex hidden lg:block gap-7 cursor-pointer items-center me-5 relative">
             <FaCartShopping className="mt-5 hidden lg:block" size={20} />
             <span className="absolute  top-5 left-3 bg-pink-600 rounded-full text-[8px] text-white w-4 h-4 flex items-center justify-center">
               <span className='hidden lg:block'>{totalProduct}</span>
@@ -140,7 +140,7 @@ const Navbar = ({ openToggle, allProducts }) => {
           </button>
           {dropdownOpen && (
             <div ref={dropdown} className="absolute bg-white w-48 mt-2 p-2 shadow-md lg:hidden">
-              <Upbar  allProducts={allProducts}/>
+              <Upbar allProducts={allProducts}/>
             </div>
           )}
         </div>
