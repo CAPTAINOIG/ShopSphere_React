@@ -69,7 +69,7 @@ const Navbar = ({ openToggle, allProducts }) => {
   return isHidden ? null : (
     <>
       <Carousel />
-      <nav className='m-0 lg:ps-10 shadow w-full sticky top-0 bg-white py-2 z-[1000]'>
+      <nav className='m-0 lg:ps-10 shadow w-full sticky top-0 bg-white py-5 z-[1000]'>
         <div className='flex justify-between lg:mx-0 md:mx-5 mx-2'>
           <div className="flex items-center">
             <Link to="/" className='mt-2'>
@@ -123,18 +123,19 @@ const Navbar = ({ openToggle, allProducts }) => {
           )}
 
 
-          <div onClick={handleCartRoute} className="flex hidden lg:block gap-7 cursor-pointer items-center me-5 relative">
+          <div onClick={handleCartRoute} className="flex hidden lg:block gap-7 mt-3 cursor-pointer items-center me-5 relative">
             <FaCartShopping className="mt-5 hidden lg:block" size={20} />
             <span className="absolute  top-5 left-3 bg-pink-600 rounded-full text-[8px] text-white w-4 h-4 flex items-center justify-center">
               <span className='hidden lg:block'>{totalProduct}</span>
             </span>
+          </div>
+
             <Link
               to="/signin"
               className="hidden lg:block border me-5 mt-6 w-[150px] font-semibold border-black text-center py-1 text-black hover:text-white rounded-[6px] hover:bg-black hover:border-black"
             >
               Log in
             </Link>
-          </div>
           <button ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className='lg:hidden block mt-1 text-black z-50 font-bold'>
             {openToggle ? <FaBars /> : <IoMdClose />}
           </button>

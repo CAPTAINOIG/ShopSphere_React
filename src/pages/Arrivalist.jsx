@@ -1,94 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
-import { useNavigate } from 'react-router-dom';
-import Cloth from '../category/Cloth';
-import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
+import Newsletter from '../component/Newsletter';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, increment } from '../Redux/counterSlice';
+import { addToCart, increment, decrement } from '../Redux/counterSlice'; // Import decrement action
+import Cloth from '../category/Cloth';
 
-    const Arrivalist = () => {
-    const store = useSelector((state) => state.counterReducer.cart);
-    // console.log(store);
+const Arrivalist = () => {
+  const store = useSelector((state) => state.counterReducer.cart);
+  const dispatch = useDispatch();
   
-    const userDetails = JSON?.parse(localStorage?.getItem('user'));
-    // console.log(userDetails);
-    const token = JSON?.parse(localStorage?.getItem('shoppinToken'));
-    // console.log(token);
-    // const userId = JSON.parse(localStorage.getItem('userId'));
+  const [selectedImage, setSelectedImage] = useState(''); 
+  const [userProduct, setUserProduct] = useState({});
+  const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+  const productInCart = store?.find((item) => item?.id === savedProduct?.id);
+  // console.log(productInCart);
   
-  
-    const navigate = useNavigate();
-  
-    const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
-    const [userProduct, setUserProduct] = useState({});
-    const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-    // console.log(('savedProduct'), savedProduct);
-    // console.log(savedProduct.id);
-  
-  
-    const dispatch = useDispatch()
-    useEffect(() => {
-      if (savedProduct) {
-        setUserProduct(savedProduct);
-        // setSelectedImage(userProduct?.images?.front);
-      }
-    }, []);
-  
-    useEffect(() => {
-      if (!token) {
-        navigate('/login')
-      }
-    }, [])
-  
-  
-    const handleCart = async () => {
-      if (!userDetails) {
-        console.log('User is not logged in.');
-        toast.error('You must be signed in to add items to your cart.');
-        return navigate('/login');
-      }
-      // const productId = userId;
-      // console.log(productId);
-  
-      const productItem = store?.find((item) => item?.id === savedProduct.id);
-      if (productItem) {
-        // console.log(productItem);
-        toast?.success('product added successfully');
-        if (productItem?.cartQuantity < productItem?.availableQuantity) {
-          // console.log('Incrementing product quantity');
-          dispatch(increment(productItem?.id));
-        } else {
-          // console.log('Cannot add more than available stock');
-          toast.error('Cannot add more than available stock');
-        };
-      }
-      else {
-        let newCart = {
-          id: savedProduct?.id,
-          name: savedProduct?.name,
-          price: savedProduct?.price,
-          promoPrice: savedProduct?.promoPrice,
-          cartQuantity: 1,
-          discountPercentage: savedProduct?.discountPercentage,
-          description: savedProduct?.description,
-          category: savedProduct?.category,
-          availableQuantity: savedProduct?.availableQuantity,
-          image1: savedProduct?.images?.front,
-          image2: savedProduct?.images?.back,
-          image3: savedProduct?.images?.side,
-          image4: savedProduct?.images?.additional,
+
+  useEffect(() => {
+        if (savedProduct) {
+          setUserProduct(savedProduct);
+          // setSelectedImage(userProduct?.images?.front);
         }
-        // console.log(newCart);
-        toast?.success('product added successfully');
-        dispatch(addToCart(newCart));
-      }
-    }
+      }, []);
 
+  const handleAddToCart = async () => {
+      let newCart = {
+        id: savedProduct?.id,
+        name: savedProduct?.name,
+        price: savedProduct?.price,
+        promoPrice: savedProduct?.promoPrice,
+        cartQuantity: 1,
+        discountPercentage: savedProduct?.discountPercentage,
+        description: savedProduct?.description,
+        category: savedProduct?.category,
+        availableQuantity: savedProduct?.availableQuantity,
+        image1: savedProduct?.images?.front,
+        image2: savedProduct?.images?.back,
+        image3: savedProduct?.images?.side,
+        image4: savedProduct?.images?.additional,
+      };
+      dispatch(addToCart(newCart));
+      toast.success('Product added successfully');
+    };
+
+
+    const handleIncrement = (itemId) => {
+      dispatch(increment(itemId));
+    };
+  
+    const handleDecrement = (itemId) => {
+      dispatch(decrement(itemId));
+    };
+ 
   const handleImage = (newImage) => {
-    setSelectedImage(newImage); // Update selected image on click
+    setSelectedImage(newImage); 
   };
 
   if (!userProduct.name) return <div>Loading...</div>;
@@ -101,41 +69,38 @@ import { addToCart, increment } from '../Redux/counterSlice';
             <img
               src={savedProduct?.images?.side}
               alt='Side View'
-              className={`w-full hover:border-blue-500 rounded-lg my-2 bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${
-                selectedImage === savedProduct?.images?.side ? 'border-pink-500' : 'border-gray-900'
-              }`}
+              className={`w-full hover:border-blue-500 rounded-lg my-2 bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${selectedImage === savedProduct?.images?.side ? 'border-pink-500' : 'border-gray-900'
+                }`}
               onClick={() => handleImage(savedProduct?.images?.side)}
             />
             <img
               src={savedProduct?.images?.back}
               alt='Back View'
-              className={`w-full hover:border-blue-500 rounded-lg bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${
-                selectedImage === savedProduct?.images?.back ? 'border-pink-600' : 'border-gray-900'
-              }`}
+              className={`w-full hover:border-blue-500 rounded-lg bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${selectedImage === savedProduct?.images?.back ? 'border-pink-600' : 'border-gray-900'
+                }`}
               onClick={() => handleImage(savedProduct?.images?.back)}
             />
             <img
               src={savedProduct?.images?.additional}
               alt='Additional View'
-              className={`hover:border-blue-500 w-full my-2 rounded-lg bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${
-                selectedImage === savedProduct?.images?.additional ? 'border-pink-500' : 'border-gray-900'
-              }`}
+              className={`hover:border-blue-500 w-full my-2 rounded-lg bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${selectedImage === savedProduct?.images?.additional ? 'border-pink-500' : 'border-gray-900'
+                }`}
               onClick={() => handleImage(savedProduct?.images?.additional)}
             />
           </div>
 
-
           {
-            selectedImage ?
-            <img className="className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'" src={selectedImage} alt="Main" />
-            :
-            <img
-            className="className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'"
-            src={savedProduct.images.front}
-            alt="Thumbnail"
-          />
-        }
+            selectedImage ? 
+              <img className="lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden" src={selectedImage} alt="Main" />
+              : 
+              <img
+                className="lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden"
+                src={savedProduct.images.front}
+                alt="Thumbnail"
+              />
+          }
         </div>
+
         <div className='flex flex-col justify-between'>
           <div>
             <h1 className='text-3xl font-bold mb-4'>{savedProduct?.name}</h1>
@@ -156,17 +121,30 @@ import { addToCart, increment } from '../Redux/counterSlice';
             <p className='text-sm text-pink-500 my-4'>Available Quantity: {savedProduct?.availableQuantity}</p>
           </div>
           <div>
-            <button onClick={handleCart} className='bg-pink-500 w-full text-white px-6 py-2 rounded-lg text-lg font-semibold hover:bg-gray-400 transition'>
-              Add to Cart
-            </button>
+            {productInCart ? (
+              <div className='flex gap-4'>
+                <button onClick={() => handleDecrement(savedProduct.id)} className='bg-gray-400 px-4 py-2 rounded-lg text-white'>
+                  -
+                </button>
+                <span className='px-4 py-2 text-lg'>{productInCart?.cartQuantity}</span>
+                <button onClick={() => handleIncrement(savedProduct.id)} className='bg-pink-500 px-4 py-2 rounded-lg text-white'>
+                  +
+                </button>
+                <span className='px-4 py-2 text-lg'>{`${productInCart?.cartQuantity} items added`}</span>
+                
+              </div>
+            ) : (
+              <button onClick={handleAddToCart} className='bg-pink-500 w-full text-white px-6 py-2 rounded-lg text-lg font-semibold hover:bg-gray-400 transition'>
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </div>
       <Productreviewpage userProduct={userProduct} setUserProduct={setUserProduct} />
-      {/* <Productreviewpage/> */}
-      <Cloth/>
-      <Newsletter/>
-      <Footer/>
+      <Cloth />
+      <Newsletter />
+      <Footer />
     </div>
   );
 };

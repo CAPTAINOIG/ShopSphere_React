@@ -1,74 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
-import { useNavigate } from 'react-router-dom';
 import Newarrivals from '../category/Newarrivals';
 import Footer from '../component/Footer';
 import Newsletter from '../component/Newsletter';
-// import axiosInstance from '../axiosInstance';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, increment } from '../Redux/counterSlice';
-
-
+import { addToCart, increment, decrement } from '../Redux/counterSlice'; // Import decrement action
 
 const ProductList = () => {
   const store = useSelector((state) => state.counterReducer.cart);
-  // console.log(store);
-
-  const userDetails = JSON?.parse(localStorage?.getItem('user'));
-  // console.log(userDetails);
-  const token = JSON?.parse(localStorage?.getItem('shoppinToken'));
-  // console.log(token);
-  // const userId = JSON.parse(localStorage.getItem('userId'));
-
-
-  const navigate = useNavigate();
-
-  const [selectedImage, setSelectedImage] = useState(''); // Initialize as an empty string
+  const dispatch = useDispatch();
+  
+  const [selectedImage, setSelectedImage] = useState(''); 
   const [userProduct, setUserProduct] = useState({});
   const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-  // console.log(('savedProduct'), savedProduct);
-  // console.log(savedProduct.id);
-
-
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if (savedProduct) {
-      setUserProduct(savedProduct);
-      // setSelectedImage(userProduct?.images?.front);
-    }
-  }, []);
+  const productInCart = store?.find((item) => item?.id === savedProduct?.id);
+  // console.log(productInCart);
+  
 
   useEffect(() => {
-    if (!token) {
-      navigate('/login')
-    }
-  }, [])
+        if (savedProduct) {
+          setUserProduct(savedProduct);
+          // setSelectedImage(userProduct?.images?.front);
+        }
+      }, []);
 
-
-  const handleCart = async () => {
-    if (!userDetails) {
-      console.log('User is not logged in.');
-      toast.error('You must be signed in to add items to your cart.');
-      return navigate('/login');
-    }
-    // const productId = userId;
-    // console.log(productId);
-
-    const productItem = store?.find((item) => item?.id === savedProduct.id);
-    if (productItem) {
-      // console.log(productItem);
-      toast?.success('product added successfully');
-      if (productItem?.cartQuantity < productItem?.availableQuantity) {
-        // console.log('Incrementing product quantity');
-        dispatch(increment(productItem?.id));
-      } else {
-        // console.log('Cannot add more than available stock');
-        toast.error('Cannot add more than available stock');
-      };
-    }
-    else {
+  const handleAddToCart = async () => {
       let newCart = {
         id: savedProduct?.id,
         name: savedProduct?.name,
@@ -83,16 +41,22 @@ const ProductList = () => {
         image2: savedProduct?.images?.back,
         image3: savedProduct?.images?.side,
         image4: savedProduct?.images?.additional,
-      }
-      // console.log(newCart);
-      toast?.success('product added successfully');
+      };
       dispatch(addToCart(newCart));
-    }
-  }
+      toast.success('Product added successfully');
+    };
 
 
+    const handleIncrement = (itemId) => {
+      dispatch(increment(itemId));
+    };
+  
+    const handleDecrement = (itemId) => {
+      dispatch(decrement(itemId));
+    };
+ 
   const handleImage = (newImage) => {
-    setSelectedImage(newImage); // Update selected image on click
+    setSelectedImage(newImage); 
   };
 
   if (!userProduct.name) return <div>Loading...</div>;
@@ -125,20 +89,16 @@ const ProductList = () => {
             />
           </div>
 
-
           {
-            selectedImage ?
-              <img className="className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'" src={selectedImage} alt="Main" />
-              :
+            selectedImage ? 
+              <img className="lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden" src={selectedImage} alt="Main" />
+              : 
               <img
-                className="className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'"
+                className="lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden"
                 src={savedProduct.images.front}
                 alt="Thumbnail"
               />
           }
-          {/* <div className='lg:w-[500px] lg:h-[400px] md:w-[400px] md:h-[400px] sm:w-[300px] sm:h-[250px] w-[100%] h-auto bg-gray-200 border border-gray-200 p-4 my-2 rounded-lg overflow-hidden'>
-            <img className="w-full h-full object-cover" src={selectedImage} alt="Main" />
-          </div> */}
         </div>
 
         <div className='flex flex-col justify-between'>
@@ -161,9 +121,23 @@ const ProductList = () => {
             <p className='text-sm text-pink-500 my-4'>Available Quantity: {savedProduct?.availableQuantity}</p>
           </div>
           <div>
-            <button onClick={handleCart} className='bg-pink-500 w-full text-white px-6 py-2 rounded-lg text-lg font-semibold hover:bg-gray-400 transition'>
-              Add to Cart
-            </button>
+            {productInCart ? (
+              <div className='flex gap-4'>
+                <button onClick={() => handleDecrement(savedProduct.id)} className='bg-gray-400 px-4 py-2 rounded-lg text-white'>
+                  -
+                </button>
+                <span className='px-4 py-2 text-lg'>{productInCart?.cartQuantity}</span>
+                <button onClick={() => handleIncrement(savedProduct.id)} className='bg-pink-500 px-4 py-2 rounded-lg text-white'>
+                  +
+                </button>
+                <span className='px-4 py-2 text-lg'>{`${productInCart?.cartQuantity} items added`}</span>
+                
+              </div>
+            ) : (
+              <button onClick={handleAddToCart} className='bg-pink-500 w-full text-white px-6 py-2 rounded-lg text-lg font-semibold hover:bg-gray-400 transition'>
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </div>

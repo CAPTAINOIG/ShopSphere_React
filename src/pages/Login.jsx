@@ -34,8 +34,8 @@ const Login = () => {
         const userData = response?.data?.user.email;
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('shoppinToken',  JSON.stringify (response.data.token));
-        // localStorage.setItem('userId',  JSON.stringify (response.data.user._id));
-        navigate(`/product/${values.email}`);
+        localStorage.setItem('userDetails',  JSON.stringify (response.data.user));
+        navigate(`/cart/${values.email}`);
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -52,7 +52,7 @@ const Login = () => {
       <div className="preloader absolute inset-0 flex items-center justify-center">
         <div className="preloader-icon animate-spin"></div>
       </div>
-      <div className="content bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+      <div className="content bg-white mx-10 p-8 rounded-lg shadow-md w-full max-w-sm">
         <div id="logo" className="mb-6 text-center">
           <MdOutlineShoppingBag className='mx-auto text-center bg-pink-500 rounded-full p-3' size={30} />
         </div>

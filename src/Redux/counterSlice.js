@@ -36,6 +36,9 @@ export const counterSlice = createSlice({
         toast.success('Item quantity has been updated');
         productItem.cartQuantity -= 1;
       }
+      else{
+        toast.error('Minimum quantity reached');
+      }
       localStorage.setItem("cart", JSON.stringify(state.cart)); // Update local storage
     },
 

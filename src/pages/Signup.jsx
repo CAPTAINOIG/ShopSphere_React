@@ -52,7 +52,7 @@ const [loading, setLoading] = useState(false)
     <div id='background' className="form-membership min-h-screen flex items-center justify-center py-10">
       <div className="preloader absolute inset-0 flex items-center justify-center">
       </div>
-      <div className="content bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+      <div className="content bg-white mx-10 p-8 rounded-lg shadow-md w-full max-w-sm">
         <div id="logo" className="mb-6 text-center">
           <MdOutlineShoppingBag className='mx-auto text-center bg-pink-500 rounded-full p-3' size={30} />
         </div>
