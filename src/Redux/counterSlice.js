@@ -13,7 +13,9 @@ const initialCart = () => {
 export const counterSlice = createSlice({
   name: 'commerce',
   initialState: {
-    cart: initialCart()
+    cart: initialCart(),
+    address: {},           
+    currentStep: 1, 
   },
   reducers: {
     addToCart: (state, payload) => {
@@ -54,8 +56,19 @@ export const counterSlice = createSlice({
         localStorage.setItem("cart", JSON.stringify(state.cart))
       }
     },
+
+    handleNextStep: (state, action)=>{
+      state.address = {...state.address, ...action.payload}
+      state.address.currentStep++
+    },
+    
+    handlePreviousStep: (state, action)=>{
+      state.address = {...state.address, ...action.payload}
+      state.address.currentStep--
+    }
   }
 
+
   })
-export const { addToCart, increment, decrement, remove } = counterSlice.actions
+export const { addToCart, increment, decrement, remove, handleNextStep, handlePreviousStep } = counterSlice.actions
 export default counterSlice.reducer

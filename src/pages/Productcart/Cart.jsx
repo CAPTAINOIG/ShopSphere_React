@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import Footer from '../../component/Footer';
 import './Cart.css'
 import Tops from '../../category/Tops';
+import gif from '../../assets/image/gif.gif'
 import { IoGridSharp } from "react-icons/io5";
 import { FaList } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
@@ -30,8 +31,9 @@ const Cart = () => {
 
   const dispatch = useDispatch();
   const [cartData, setCartData] = useState([]);
-  const [viewMode, setViewMode] = useState('list'); // 'list' or 'grid'
-  const [cartQuantity, setCartQuantity] = useState([])
+  const [viewMode, setViewMode] = useState('list');
+  const [cartQuantity, setCartQuantity] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     cartDetails();
@@ -84,6 +86,7 @@ const Cart = () => {
 
 
   const handleCheckout = async () => {
+    setLoader(true);
     if (!shoppinToken) {
       toast.error('You must be signed in to add items to your cart.');
       console.log('User is not logged in.');
@@ -98,13 +101,16 @@ const Cart = () => {
     console.log(checkoutData);
 
     try {
+      setLoader(true)
       const response = await axiosInstance.post('/checkout', checkoutData)
       console.log(response);
-      
       toast.success(`${response.data.message}`)
+      setLoader(false)
+      navigate('/gateway')
     } catch (error) {
       console.log(error);
-      toast(`${response.data.messeage}`)
+      setLoader(false);
+      toast(`${response.data.messeage}`);
     }
   }
 
@@ -195,7 +201,7 @@ const Cart = () => {
               </div>
 
               <button onClick={() => handleCheckout()} className="w-full bg-pink-600 text-white py-3 rounded-lg hover:bg-black transition-colors font-semibold">
-                Proceed to Checkout
+                {loader ? (<img src={gif} alt="" className='w-[25px] text-center mx-auto' />) : ('Proceed to Checkout')}
               </button>
             </div>
           </div>
