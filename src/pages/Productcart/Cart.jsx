@@ -59,31 +59,34 @@ const Cart = () => {
     setCartQuantity(updatedCartQuantity)
   }, [store]);
 
-  const handleRemove = (index) => {
-    // console.log(index);
+  // const handleRemove = (index) => {
+  //   console.log(index);
 
-    // Show a toast to confirm removal
-    toast(
-      <div>
-        <p>Are you sure you want to remove this item?</p>
-        <button onClick={() => {
-          dispatch(remove(index));
-          toast.dismiss();
-          toast.success('Item removed successfully');
-        }} className="bg-red-500 text-white px-3 py-1 rounded mt-2">
-          Yes, Remove
-        </button>
-        <button onClick={() => toast.dismiss()} className="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2"
-        >
-          Cancel
-        </button>
-      </div>,
-      {
-        autoClose: false,
-      }
-    );
-  };
+  //   // Show a toast to confirm removal
+  //   toast(
+  //     <div>
+  //       <p>Are you sure you want to remove this item?</p>
+  //       <button onClick={() => {
+  //         dispatch(remove(index));
+  //         toast.dismiss();
+  //         toast.success('Item removed successfully');
+  //       }} className="bg-red-500 text-white px-3 py-1 rounded mt-2">
+  //         Yes, Remove
+  //       </button>
+  //       <button onClick={() => toast.dismiss()} className="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2"
+  //       >
+  //         Cancel
+  //       </button>
+  //     </div>,
+  //     {
+  //       autoClose: false,
+  //     }
+  //   );
+  // };
 
+  const handleRemove =(index)=>{
+    dispatch(remove(index))
+  }
 
   const handleCheckout = async () => {
     setLoader(true);

@@ -35,7 +35,8 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('shoppinToken',  JSON.stringify (response.data.token));
         localStorage.setItem('userDetails',  JSON.stringify (response.data.user));
-        navigate(`/cart/${values.email}`);
+        // let email = response.data.user.email;
+        navigate('/cart');
       } catch (error) {
         console.log(error);
         setLoading(false);

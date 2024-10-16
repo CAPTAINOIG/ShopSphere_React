@@ -26,8 +26,13 @@ const Cloth = () => {
     try {
       const response = await axiosInstance.get('/category/Shirts')
       console.log(response.data);
-      setClothCategory(response.data.products);
-      setLoader(false)
+      if(response.data && response.data.products){
+        setClothCategory(response.data.products);
+      }
+      else {
+        setClothCategory([]); 
+      }
+      setLoader(false);
     } catch (error) {
       console.log(error);
       setLoader(false);

@@ -18,9 +18,9 @@ const Address = () => {
     fullname: yup.string().required(),
     phone: yup.string().required(),
     email: yup.string().required(),
+    city: yup.string().required(),
     address: yup.string().required(),
     zip: yup.string(),
-
   })
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -32,7 +32,7 @@ const Address = () => {
       setValue('fullname', store?.fullname)
       setValue('phone', store?.phone)
       setValue('email', store?.email)
-      setValue('address', store?.address)
+      setValue('city', store?.city)
       setValue('address', store?.address)
       setValue('zip', store?.zip)
     }
@@ -40,7 +40,7 @@ const Address = () => {
 
 
   const onSubmit = (data) =>{
-    const form = {...data, location}
+    const form = {...data, country:location}
     console.log(form);
     dispatch(handleNextStep(form))
   } 
@@ -67,28 +67,34 @@ const Address = () => {
         </div>
         <small className='text-red-600 ms-[42%] lg:ms-[55%]'>{errors.email && <span>This field is required</span>}</small>
 
+        <div className='flex lg:gap-[15%] border-gray-500 lg:border-b md:border-b lg:p-3 p-4'>
+          <label htmlFor="city" className='font-semibold'>City:</label>
+          <input type="text" {...register('city', { required: true })} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[63%] lg:ms-2 md:ms-16 ms-16 lg:w-[70%] ${errors.city ? 'border-red-500' : ''}`} />
+        </div>
+        <small className='text-red-600 ms-[42%] lg:ms-[55%]'>{errors.city && <span>This field is required</span>}</small>
+
         <div className='flex gap-3 lg:gap-[19%] border-gray-500 lg:border-b md:border-b lg:p-3 p-4'>
           <label htmlFor="zip" className='font-semibold'>ZIP:</label>
-          <input type="text" {...register('zip', { required: true })} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[63%] lg:ms-0 md:ms-16 ms-[66px] lg:w-[75%] ${errors.zip ? 'border-red-500' : ''}`} />
+          <input type="text" {...register('zip', { required: true })} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[63%] lg:ms-[-5px] md:ms-16 ms-[66px] lg:w-[75%] ${errors.zip ? 'border-red-500' : ''}`} />
         </div>
         <small className='text-red-600 ms-[42%] lg:ms-[55%]'>{errors.phone && <span>This field is required</span>}</small>
 
         <div className='flex gap-3 lg:gap-[13%] border-gray-500 lg:border-b md:border-b lg:p-3 p-4'>
           <label htmlFor="address" className='font-semibold'>Address:</label>
-          <input type="text" {...register('address', { required: true })} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[62%] lg:ms-0 md:ms-10 ms-10 lg:w-[75%] ${errors.address ? 'border-red-500' : ''}`} />
+          <input type="text" {...register('address', { required: true })} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[62%] lg:ms-[-5px] md:ms-10 ms-10 lg:w-[75%] ${errors.address ? 'border-red-500' : ''}`} />
         </div>
         <small className='text-red-600 ms-[42%] lg:ms-[55%]'>{errors.address && <span>This field is required</span>}</small>
 
-        <div className='flex lg:gap-5 gap-3 border-gray-500 border-b lg:p-5 p-4'>
+        <div className='flex gap-3 border-gray-500 border-b lg:p-5 p-4'>
           <label for="shippingmethod" className='font-semibold'>ShippingMethod</label>
-          <select id="shippingmethod" {...register('shippingmethod', {required: true})} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[62%] lg:ms-0 md:ms-10 ms-10 lg:w-[85%] ${errors.shippingmethod ? 'border-red-500' : ''}`}>
+          <select id="shippingmethod" {...register('shippingmethod', {required: true})} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[62%] lg:ms-[-5px] md:ms-10 ms-10 lg:w-[85%] ${errors.shippingmethod ? 'border-red-500' : ''}`}>
             <option value="standard">Standard Shipping</option>
             <option value="express">Express Shipping</option>
           </select>
         </div>
 
         <div className='flex lg:gap-5 gap-3 border-gray-500  lg:p-3 p-4'>
-          <label htmlFor="" className='font-semibold'>City&Country</label>
+          <label htmlFor="" className='font-semibold'>Country</label>
           <Countryaddress setLocation={setLocation} />
         </div>
 

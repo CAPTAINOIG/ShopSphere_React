@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const Upbar = ({openToggle, allProducts}) => { 
-  console.log("All Products: ", allProducts);
+  // console.log("All Products: ", allProducts);
   const navigate = useNavigate();
 
   const store = useSelector((state) => state.counterReducer.cart);
@@ -37,6 +37,12 @@ const Upbar = ({openToggle, allProducts}) => {
     navigate('/cart')
   }
 
+  const handleFilteredProducts=(product)=>{
+    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    navigate(`/product/${productName}`);
+    
+  }
   
   return (
     <div className='fixed w-full ms-[-16px] md:ms-[-28px] lg:ms-0 top-0 lg:hidden text-white bg-pink-600 p-5 rounded z-0'>
@@ -66,9 +72,9 @@ const Upbar = ({openToggle, allProducts}) => {
                 <ul>
                   {filteredProducts.map((product) => (
                     <li key={product._id} className="py-2 px-4 cursor-pointer hover:bg-gray-100">
-                      <Link to={'/'} onClick={() => setSearchQuery('')}>
+                      <div onClick={() => handleFilteredProducts(product)}>
                         {product.name}
-                      </Link>
+                      </div>
                     </li>
                   ))}
                 </ul>

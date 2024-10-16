@@ -33,6 +33,7 @@ const Delivery = () => {
     setValue('pickupname', store.pickupname)
     setValue('pickupmail', store.pickupmail)
     setValue('phoneNumber', store.phoneNumber)
+    setValue('pickupstation', store.pickupstation)
   }, [])
 
 

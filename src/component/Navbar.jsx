@@ -26,9 +26,7 @@ const Navbar = ({ openToggle, allProducts }) => {
 
   useEffect(() => {
     if (searchQuery) {
-      const results = allProducts.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const results = allProducts.filter(product =>product?.name && product?.name?.toLowerCase().includes(searchQuery.toLowerCase()));
       setFilteredProducts(results);
     } else {
       setFilteredProducts([]);
@@ -60,6 +58,13 @@ const Navbar = ({ openToggle, allProducts }) => {
 
   const handleCartRoute = () =>{
     navigate('/cart')
+  }
+
+  const handleFilteredProducts=(product)=>{
+    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
+    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    navigate(`/product/${productName}`);
+    
   }
 
   const location = useLocation();
@@ -110,9 +115,9 @@ const Navbar = ({ openToggle, allProducts }) => {
                 <ul>
                   {filteredProducts.map((product) => (
                     <li key={product._id} className="py-2 px-4 cursor-pointer hover:bg-gray-100">
-                      <Link to={'/'} onClick={() => setSearchQuery('')}>
+                      <div onClick={() => handleFilteredProducts(product)}>
                         {product.name}
-                      </Link>
+                      </div>
                     </li>
                   ))}
                 </ul>

@@ -12,10 +12,10 @@ console.log(store);
 const handleSelect = (selectedOption) => {
   const selectedLocation = selectedOption.label || selectedOption.value.description;
   setLocalLocation(selectedLocation);
-  setLocation(selectedLocation);  // Update the parent component with the selected location
+  setLocation(selectedLocation);  
 };
   return (
-    <div className='border border-black rounded lg:ms-0 md:ms-3 ms-3  w-[63%] lg:w-[100%] md:w-[62%] h-[40px]'>
+    <div className='border border-black rounded lg:ms-10 md:ms-3 ms-3  w-[63%] lg:w-[80%] md:w-[62%] h-[40px]'>
     <div className='cursor-pointer'>
       <GooglePlacesAutocomplete
         apiKey=" AIzaSyAiBBG3mp9DjIydSmBo4FdHJKRsAREZgcc" 

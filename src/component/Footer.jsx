@@ -66,22 +66,26 @@ const Footer = () => {
         </div>
       </div>
       <hr />
-      <div className='lg:flex justify-between mt-5 p-5'>
-        <div className="flex items-center gap-5">
-          <Link to="/">
-            <span className="text-2xl font-bold text-white mr-2">shopping</span>
-            <span className="text-xl font-semibold text-pink-600">.co</span>
-          </Link>
-          <p className="text-white mt-2">2000 - 2024</p>
-        </div>
-        <div className='flex'>
-          <img src={pay} alt="" />
-          <img src={paypal} alt="" />
-          <img src={master} alt="" />
-          <img src={visa} alt="" />
-          <img src={gpay} alt="" />
-        </div>
-      </div>
+      <div className="lg:flex justify-between mt-5 p-5">
+  {/* Logo Section */}
+  <div className="flex items-center gap-5">
+    <Link to="/">
+      <span className="text-2xl font-bold text-white mr-2">shopping</span>
+      <span className="text-xl font-semibold text-pink-600">.co</span>
+    </Link>
+    <p className="text-white mt-2">2000 - 2024</p>
+  </div>
+
+  {/* Payment Methods Section */}
+  <div className="flex flex-wrap justify-center lg:justify-end gap-3 mt-5 lg:mt-0">
+    <img src={pay} alt="Pay" className="w-12 h-12 object-contain" />
+    <img src={paypal} alt="PayPal" className="w-12 h-12 object-contain" />
+    <img src={master} alt="MasterCard" className="w-12 h-12 object-contain" />
+    <img src={visa} alt="Visa" className="w-12 h-12 object-contain" />
+    <img src={gpay} alt="Google Pay" className="w-12 h-12 object-contain" />
+  </div>
+</div>
+
     </div>
   )
 }
