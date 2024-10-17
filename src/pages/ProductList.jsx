@@ -111,8 +111,8 @@ const ProductList = () => {
               <span>5.0</span>
             </div>
             <div className='flex gap-2 my-2'>
-              <p className='text-2xl font-semibold'>${savedProduct?.price}</p>
-              <p className='text-2xl font-semibold line-through text-gray-400'>${savedProduct?.promoPrice}</p>
+              <p className='text-2xl font-semibold'>${savedProduct?.promoPrice}</p>
+              <p className='text-2xl font-semibold line-through text-gray-400'>${savedProduct?.price}</p>
               <p className='text-sm text-pink-500 bg-pink-200 rounded-full px-2 py-1'>-{savedProduct?.discountPercentage}%</p>
             </div>
             <hr />
