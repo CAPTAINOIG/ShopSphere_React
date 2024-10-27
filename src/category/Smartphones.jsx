@@ -48,7 +48,7 @@ const Smartphones = () => {
           {smartPhonesCat?.length === 0 ? (
             <p className='text-center text-lg font-semibold'>No product found</p>
           ) : (
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
               {smartPhonesCat.map((item, index) => (
                 <ProductCard key={index} product={item} />
               ))}

@@ -6,7 +6,7 @@ const Faqs = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
 
   const toggleFAQ = (index) => {
-    setOpenFAQ(openFAQ === index ? null : index); // Toggle the FAQ open/close
+    setOpenFAQ(openFAQ === index ? null : index); 
   };
 
   return (
