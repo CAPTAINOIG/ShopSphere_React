@@ -5,10 +5,9 @@ import Ratingreview from './Ratingreview';
 // import Cloth from '../category/Cloth';
 import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
-// import Newarrivals from '../category/Newarrivals';
 
-const Productreviewpage = ({userProduct, setUserProduct}) => {
-  // console.log('User Product:', userProduct);
+const Productreviewpage = ({savedProduct, setsavedProduct}) => {
+  console.log(savedProduct);
   
   const [productView, setProductView] = useState('productdetails');
 
@@ -38,7 +37,7 @@ const Productreviewpage = ({userProduct, setUserProduct}) => {
         </div>
       </div>
 
-      {productView === 'productdetails' && <Productdetails userProduct={userProduct} setUserProduct={setUserProduct}/>}
+      {productView === 'productdetails' && <Productdetails savedProduct={savedProduct} setsavedProduct={setsavedProduct}/>}
       {productView === 'reviews' && <Ratingreview />}
       {productView === 'faqs' && <Faqs />}
     </>

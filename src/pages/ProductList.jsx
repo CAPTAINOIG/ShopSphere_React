@@ -7,24 +7,35 @@ import Newsletter from '../component/Newsletter';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, increment, decrement } from '../Redux/counterSlice'; // Import decrement action
+import { useParams } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
+import gif from '../assets/image/gif.gif';
+import Cloth from '../category/Cloth';
 
 const ProductList = () => {
+  const {productId} = useParams();
   const store = useSelector((state) => state.counterReducer.cart);
   const dispatch = useDispatch();
   
   const [selectedImage, setSelectedImage] = useState(''); 
-  const [userProduct, setUserProduct] = useState({});
-  const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+  const [savedProduct, setSavedProduct] = useState({})
   const productInCart = store?.find((item) => item?.id === savedProduct?.id);
-  // console.log(productInCart);
   
 
   useEffect(() => {
-        if (savedProduct) {
-          setUserProduct(savedProduct);
-          // setSelectedImage(userProduct?.images?.front);
-        }
-      }, []);
+    const fetchProduct = async () => {
+      try {
+        const response = await axiosInstance.get(`/product/${productId}`);
+        setSavedProduct(response.data)  
+        setSelectedImage(response.data.images.front);      
+      } catch (error) {
+        console.error("Failed to fetch product data:", error);
+      }
+    };
+  
+    fetchProduct();
+  }, [productId]);
+
 
   const handleAddToCart = async () => {
       let newCart = {
@@ -59,7 +70,11 @@ const ProductList = () => {
     setSelectedImage(newImage); 
   };
 
-  if (!userProduct.name) return <div>Loading...</div>;
+  if (!savedProduct.name) return <div> <img
+  src={gif}
+  alt="Loading..."
+  className="lg:ms-[-100px] border p-3 shadow-xl rounded-xl w-[100px] mt-10"
+/></div>;
 
   return (
     <div className='container mx-auto p-8'>
@@ -141,8 +156,9 @@ const ProductList = () => {
           </div>
         </div>
       </div>
-      <Productreviewpage userProduct={userProduct} setUserProduct={setUserProduct} />
+      <Productreviewpage savedProduct={savedProduct} setSavedProduct={setSavedProduct} />
       <Newarrivals />
+      <Cloth />
       <Newsletter />
       <Footer />
     </div>

@@ -16,7 +16,7 @@ const Tops = () => {
         try {
             setLoader(true)
             const response = await axiosInstance.get('/category/Cameras')
-            // console.log(response.data.products);
+            console.log(response);
             setTopData(response.data.products)
             setLoader(false)
         } catch (error) {
@@ -25,10 +25,17 @@ const Tops = () => {
         }
     }
 
-    const handleProductClick = (product) => {
-        const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-        localStorage.setItem('selectedProduct', JSON.stringify(product));
-        navigate(`/product/${productName}`)
+    const handleProductClick =async (product) => {
+        const productId = product.id
+        try {
+            const response = await axiosInstance.post(`/return-product/${productId}`);
+            console.log(response);
+            if (response.data) {
+                navigate(`/product/${productId}`);
+              }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

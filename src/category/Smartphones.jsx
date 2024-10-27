@@ -18,7 +18,6 @@ const Smartphones = () => {
     setLoader(true);
     try {
       const response = await axiosInstance.get('/category/Smartphones');
-      console.log(response.data.products);
       if(response.data && response.data.products){
         setSmartPhonesCat(response.data.products);
       }

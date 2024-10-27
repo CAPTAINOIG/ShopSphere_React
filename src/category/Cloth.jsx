@@ -8,14 +8,22 @@ import gif from '../assets/image/gif.gif';
 const Cloth = () => {
   const navigate = useNavigate();
   const [clothCategory, setClothCategory] = useState([])
-  // console.log('clothCategory', clothCategory);
   const [loader, setLoader] = useState(false)
 
-  const handleProductClick = (product) => {
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
+  const handleProductClick = async (product) => {
+    const productId = product.id
+    console.log(productId);
+    
+    try {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
+      if (response.data) {
+        navigate(`/product/${productId}`);
+      }
+    } catch (error) {
+      console.error("Failed to send selected product:", error);
+    }
   };
+
 
   useEffect(() => {
     cloth();

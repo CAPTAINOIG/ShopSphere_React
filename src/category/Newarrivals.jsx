@@ -14,19 +14,25 @@ const Newarrivals = () => {
     const arrival = async () => {
         try {
             const response = await axiosInstance.get('/category/Tops')
-            // console.log(response.data);
             setNewArrival(response.data.products);
         } catch (error) {
             console.log(error);   
         }
     }
 
-    const handleProductClick = (product) => {
-        // console.log(product);
-        const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-        localStorage.setItem('selectedProduct', JSON.stringify(product));
-        navigate(`/arrival/${productName}`);
-      };
+    const handleProductClick = async (product) =>{
+      const productId = product.id;
+      try {
+        const response = await axiosInstance.post(`/return-product/${productId}`);
+        // console.log(response);
+        if (response.data) {
+          navigate(`/product/${productId}`);
+        }
+      } catch (error) {
+        console.error("Failed to send selected product:", error);
+      }
+      
+    }
 
 
   return (

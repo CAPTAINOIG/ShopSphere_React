@@ -12,6 +12,7 @@ import ProductList from './pages/ProductList';
 import Arrivalist from './pages/Arrivalist';
 import Cart from './pages/Productcart/Cart';
 import Paymentpage from './paymentgateway/Paymentpage';
+import ProductId from './category/ProductId';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +40,8 @@ function App() {
         <Route path='/' element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
-        <Route path="/product/:productName" element={<ProductList />} />
+        <Route path="/product/:productId" element={<ProductList />} />
+        <Route path="/productid/:productId" element={<ProductId />} />
         <Route path="/arrival/:productName" element={<Arrivalist />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/gateway" element={<Paymentpage/>} />

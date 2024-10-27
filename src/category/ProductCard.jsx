@@ -1,16 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
-  const handleClick = (product) => {
-    console.log(product);
-    
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
-  };
+  const handleClick = async(product) => {
+    const productId = product.id;
+    try {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
+      if (response.data) {
+        navigate(`/product/${productId}`);
+      }
+    } catch (error) {
+      console.error("Failed to send selected product:", error);
+    }
+  }
 
   return (
     <div
