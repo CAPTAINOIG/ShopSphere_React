@@ -7,12 +7,11 @@ import Carousel from './Carousel';
 import { BsSearch } from 'react-icons/bs';
 import { FaCartShopping } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
+import axiosInstance from '../axiosInstance';
 
 const Navbar = ({ openToggle, allProducts }) => {
-  // console.log('All: ', allProducts);
 
   const store = useSelector((state) => state.counterReducer.cart);
-  // console.log(store.length);
 
   const navigate = useNavigate();
 
@@ -60,10 +59,16 @@ const Navbar = ({ openToggle, allProducts }) => {
     navigate('/cart')
   }
 
-  const handleFilteredProducts=(product)=>{
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
+  const handleFilteredProducts = async(product)=>{
+   const productId = product.id;
+    try {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
+      if (response.data) {
+        navigate(`/product/${productId}`);
+      }
+    } catch (error) {
+      toast.error('Failed to fetch data');
+    }
     
   }
 
@@ -91,10 +96,10 @@ const Navbar = ({ openToggle, allProducts }) => {
                 <a href="#" className='hover:text-pink-600 hover:font-bold'>On Sale</a>
               </li>
               <li className='font-semibold'>
-                <a href="#" className='hover:text-pink-600 hover:font-bold'>New Arrivals</a>
+                <Link to="/arrival" className='hover:text-pink-600 hover:font-bold'>New Arrivals</Link>
               </li>
               <li className='font-semibold'>
-                <a href="#" className='hover:text-pink-600 hover:font-bold'>Category</a>
+                <Link to="/faq" className='hover:text-pink-600 hover:font-bold'>FAQ</Link>
               </li>
             </ul>
           </div>
@@ -136,7 +141,7 @@ const Navbar = ({ openToggle, allProducts }) => {
           </div>
 
             <Link
-              to="/signin"
+              to="/login"
               className="hidden lg:block border me-5 mt-6 w-[150px] font-semibold border-black text-center py-1 text-black hover:text-white rounded-[6px] hover:bg-black hover:border-black"
             >
               Log in

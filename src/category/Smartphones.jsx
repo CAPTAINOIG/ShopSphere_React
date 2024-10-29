@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import ProductCard from './ProductCard';
 import gif from '../assets/image/gif.gif';
+import { toast } from 'react-toastify';
 
 
 
@@ -26,7 +27,7 @@ const Smartphones = () => {
       }
       setLoader(false);
     } catch (error) {
-      console.error(error);
+      toast.error('Failed to fetch data');
       setLoader(false);
     }
   };
@@ -47,7 +48,7 @@ const Smartphones = () => {
           {smartPhonesCat?.length === 0 ? (
             <p className='text-center text-lg font-semibold'>No product found</p>
           ) : (
-            <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6'>
               {smartPhonesCat.map((item, index) => (
                 <ProductCard key={index} product={item} />
               ))}

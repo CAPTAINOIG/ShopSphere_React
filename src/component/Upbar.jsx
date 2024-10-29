@@ -3,18 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
+import axiosInstance from '../axiosInstance';
 
 
 
 const Upbar = ({openToggle, allProducts}) => { 
-  // console.log("All Products: ", allProducts);
   const navigate = useNavigate();
 
   const store = useSelector((state) => state.counterReducer.cart);
-  // console.log(store.length);
   
   const [filteredProducts, setFilteredProducts] = useState([]);
-  // const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [totalProduct, setTotalProduct] = useState('');
 
@@ -37,11 +35,16 @@ const Upbar = ({openToggle, allProducts}) => {
     navigate('/cart')
   }
 
-  const handleFilteredProducts=(product)=>{
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
-    
+  const handleFilteredProducts = async (product) => {
+   const productId = product.id;
+    try {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
+      if (response.data) {
+        navigate(`/product/${productId}`);
+      }
+    } catch (error) {
+      toast.error('Failed to fetch data');  
+    }
   }
   
   return (
@@ -50,8 +53,8 @@ const Upbar = ({openToggle, allProducts}) => {
         <div className='grid grid-cols-2 gap-10 text-center items-center'>
           <Link to="/" className='font-semibold'>Shop</Link>
           <Link to="/features" className='font-semibold'>On Sale</Link>
-          <Link to="/pricing" className='font-semibold'>New Arrivals</Link>
-          <Link to="/blog" className='font-semibold'>Category</Link>
+          <Link to="/arrival" className='font-semibold'>New Arrivals</Link>
+          <Link to="/faq" className='font-semibold'>FAQ</Link>
           <Link to="/about" className='font-semibold'>About</Link>
           <Link to="/contact" className='font-semibold'>Contact</Link>
         </div>
@@ -90,7 +93,7 @@ const Upbar = ({openToggle, allProducts}) => {
               {totalProduct}
             </span>
             <Link
-              to="/signin"
+              to="/login"
               className="hidden lg:block border me-5 mt-6 w-[150px] font-semibold border-black text-center py-1 text-black hover:text-white rounded-[6px] hover:bg-black hover:border-black"
             >
               Log in

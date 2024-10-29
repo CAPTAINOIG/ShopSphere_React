@@ -7,8 +7,6 @@ import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
 
 const Productreviewpage = ({savedProduct, setsavedProduct}) => {
-  console.log(savedProduct);
-  
   const [productView, setProductView] = useState('productdetails');
 
   const handleProductView = (view) => {

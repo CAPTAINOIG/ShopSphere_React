@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import gif from '../assets/image/gif.gif';
 
 const Allproducts = ({ allProducts, setAllProducts }) => {
-  // const [allProducts, setAllProducts] = useState([]);
-  // const [productName, setProductName] = useState('');
   const [loader, setLoader] = useState('')
 
   const navigate = useNavigate()
@@ -18,19 +16,23 @@ const Allproducts = ({ allProducts, setAllProducts }) => {
     setLoader(true)
     try {
       const response = await axiosInstance.get('/products');
-      // console.log(response.data);
       setAllProducts(response.data);
       setLoader(false);
     } catch (error) {
-      console.error(error);
       setLoader(false);
     }
   };
 
-  const handleClick = (product) => {
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
+  const handleClick = async (product) => {
+    const productId = product.id;
+    try {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
+      if (response.data) {
+        navigate(`/product/${productId}`);
+      }
+    } catch (error) {
+      console.error("Failed to send selected product:", error);
+    }
   };
 
 

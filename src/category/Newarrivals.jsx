@@ -16,7 +16,7 @@ const Newarrivals = () => {
             const response = await axiosInstance.get('/category/Tops')
             setNewArrival(response.data.products);
         } catch (error) {
-            console.log(error);   
+            toast.error('Failed to fetch data');
         }
     }
 
@@ -24,12 +24,12 @@ const Newarrivals = () => {
       const productId = product.id;
       try {
         const response = await axiosInstance.post(`/return-product/${productId}`);
-        // console.log(response);
         if (response.data) {
           navigate(`/product/${productId}`);
         }
       } catch (error) {
         console.error("Failed to send selected product:", error);
+        toast.error('Failed to fetch data');
       }
       
     }

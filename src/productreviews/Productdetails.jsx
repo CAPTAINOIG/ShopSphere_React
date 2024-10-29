@@ -1,36 +1,25 @@
 import React from 'react';
 
 const savedProductdetails = ({ savedProduct }) => {
-  // console.log('savedProduct:', savedProduct);
     
-  const handleClick = (product) => {
-    const productName = product.name.toLowerCase().replace(/\s+/g, '-');
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
-    navigate(`/product/${productName}`);
-  };
   return (
-   
     <div className="p-4">
       <h1 className="text-3xl font-bold">{savedProduct?.name}</h1>
       
-      {/* savedProduct Description */}
       <p className="text-gray-700 mt-4">{savedProduct?.description}</p>
       
-      {/* savedProduct Images */}
       <div className="flex gap-4 mt-6">
         <img src={savedProduct?.images?.front} alt="Front View" className="w-1/3 rounded-lg object-cover" />
         <img src={savedProduct?.images?.side} alt="Side View" className="w-1/3 rounded-lg object-cover" />
         <img src={savedProduct?.images?.back} alt="Back View" className="w-1/3 rounded-lg object-cover" />
       </div>
       
-      {/* Pricing Information */}
       <div className="mt-6">
         <p className="text-2xl text-red-500 font-bold">${savedProduct?.promoPrice}</p>
         <p className="text-sm text-gray-400 line-through">${savedProduct?.price}</p>
         <p className="text-green-500">Save {savedProduct?.discountPercentage}%</p>
       </div>
 
-      {/* Specifications */}
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Specifications:</h3>
         <ul className="list-disc ml-6">
@@ -41,7 +30,6 @@ const savedProductdetails = ({ savedProduct }) => {
         </ul>
       </div>
 
-      {/* Availability and Quantity Selector */}
       <div className="mt-4">
         <p className="text-lg font-semibold">Availability: {savedProduct?.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
         <div className="flex items-center mt-2">
@@ -50,7 +38,6 @@ const savedProductdetails = ({ savedProduct }) => {
         </div>
       </div>
 
-      {/* Add to Cart / Buy Now */}
       <div className="mt-6">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4">Add to Cart</button>
         <button className="bg-green-500 text-white py-2 px-4 rounded-lg">Buy Now</button>

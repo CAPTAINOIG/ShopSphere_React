@@ -12,7 +12,6 @@ const Cloth = () => {
 
   const handleProductClick = async (product) => {
     const productId = product.id
-    console.log(productId);
     
     try {
       const response = await axiosInstance.post(`/return-product/${productId}`);
@@ -33,7 +32,6 @@ const Cloth = () => {
     setLoader(true)
     try {
       const response = await axiosInstance.get('/category/Shirts')
-      console.log(response.data);
       if(response.data && response.data.products){
         setClothCategory(response.data.products);
       }
@@ -42,7 +40,6 @@ const Cloth = () => {
       }
       setLoader(false);
     } catch (error) {
-      console.log(error);
       setLoader(false);
     }
   }

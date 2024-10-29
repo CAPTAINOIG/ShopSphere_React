@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axiosInstance from '../axiosInstance';
 import gif from '../assets/image/gif.gif'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Tops = () => {
     const [topData, setTopData] = useState([]);
@@ -16,11 +17,10 @@ const Tops = () => {
         try {
             setLoader(true)
             const response = await axiosInstance.get('/category/Cameras')
-            console.log(response);
             setTopData(response.data.products)
             setLoader(false)
         } catch (error) {
-            console.log(error);
+            toast.error('Failed to fetch data');
             setLoader(false)
         }
     }

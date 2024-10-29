@@ -3,6 +3,7 @@ import { useState } from 'react'
 import axiosInstance from '../axiosInstance'
 import ProductCard from './ProductCard';
 import gif from '../assets/image/gif.gif';
+import { toast } from 'react-toastify';
 
 
 const Wears = () => {
@@ -17,7 +18,6 @@ const Wears = () => {
       setLoader(true);
         try {
             const response = await axiosInstance.get('/category/Clothing')
-            // console.log(response.data.products);
             if(response.data && response.data.products){
               setCategoryWears(response.data.products)
             } else{
@@ -25,7 +25,7 @@ const Wears = () => {
             }
             setLoader(false);
         } catch (error) {
-            console.log(error);
+          toast.error('Failed to fetch data');
             setLoader(false);
         }
     }
@@ -46,7 +46,7 @@ const Wears = () => {
       {categoryWears?.length === 0 ? (
         <p className='text-center text-lg font-semibold'>No product found</p>
       ) : (
-        <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6'>
           {categoryWears.map((item, index) => (
             <ProductCard key={index} product={item} />
           ))}

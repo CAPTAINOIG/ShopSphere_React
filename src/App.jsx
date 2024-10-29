@@ -9,10 +9,10 @@ import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import ProductList from './pages/ProductList';
-import Arrivalist from './pages/Arrivalist';
 import Cart from './pages/Productcart/Cart';
 import Paymentpage from './paymentgateway/Paymentpage';
-import ProductId from './category/ProductId';
+import Faqs from './productreviews/Faqs';
+import Newarrivals from './category/Newarrivals';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,16 +33,15 @@ function App() {
 
   return (
     <div className='font-[Mirza]'>
-      {/* Pass allProducts and setAllProducts to Navbar */}
       <Navbar openToggle={toggleIsOpen} allProducts={allProducts} setProducts={setAllProducts} />
       {isOpen && <Upbar  allProducts={allProducts} setProducts={setAllProducts} />}
       <Routes>
         <Route path='/' element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/faq' element={<Faqs />} />
+        <Route path='/arrival' element={<Newarrivals />} />
         <Route path="/product/:productId" element={<ProductList />} />
-        <Route path="/productid/:productId" element={<ProductId />} />
-        <Route path="/arrival/:productName" element={<Arrivalist />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/gateway" element={<Paymentpage/>} />
       </Routes>
