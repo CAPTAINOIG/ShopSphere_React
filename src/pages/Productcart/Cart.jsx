@@ -12,28 +12,40 @@ import { MdDelete } from "react-icons/md";
 import carty from '../../assets/image/carty.png'
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
+import { Button, Drawer, Radio, Space } from 'antd';
+import Paymentpage from '../../paymentgateway/Paymentpage';
+// import type { DrawerProps } from 'antd';
+
 
 const Cart = () => {
-  // Here, i will be sending userdetails and their cart to backend at the onclick of checkout button then the button check for token exp also.
   const store = useSelector((state) => state.counterReducer.cart);
-  // console.log(store);
-  // Retrieve user details and cart from local storage
   const navigate = useNavigate()
 
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  // console.log('userDetails', userDetails);
 
   const cart = JSON.parse(localStorage.getItem("cart"));
-  // console.log('cart', cart);
 
-  const shoppinToken = JSON?.parse(localStorage?.getItem('shoppinToken'));
-  // console.log('shoppinToken', shoppinToken);
+  const shoppinToken = JSON.parse(localStorage?.getItem('shoppinToken'));
 
   const dispatch = useDispatch();
   const [cartData, setCartData] = useState([]);
   const [viewMode, setViewMode] = useState('list');
   const [cartQuantity, setCartQuantity] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState('right');
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     cartDetails();
@@ -44,7 +56,6 @@ const Cart = () => {
   };
 
   const handleIncrement = (itemId) => {
-    // console.log(itemId);
     dispatch(increment(itemId));
   };
 
@@ -54,45 +65,19 @@ const Cart = () => {
 
   useEffect(() => {
     const updatedCartQuantity = store.reduce((total, store) => total + store.cartQuantity * store.price, 0);
-    console.log(updatedCartQuantity);
     localStorage.setItem('shoppinsphereCartTotal', JSON.stringify(updatedCartQuantity))
     setCartQuantity(updatedCartQuantity)
   }, [store]);
-
-  // const handleRemove = (index) => {
-  //   console.log(index);
-
-  //   // Show a toast to confirm removal
-  //   toast(
-  //     <div>
-  //       <p>Are you sure you want to remove this item?</p>
-  //       <button onClick={() => {
-  //         dispatch(remove(index));
-  //         toast.dismiss();
-  //         toast.success('Item removed successfully');
-  //       }} className="bg-red-500 text-white px-3 py-1 rounded mt-2">
-  //         Yes, Remove
-  //       </button>
-  //       <button onClick={() => toast.dismiss()} className="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2"
-  //       >
-  //         Cancel
-  //       </button>
-  //     </div>,
-  //     {
-  //       autoClose: false,
-  //     }
-  //   );
-  // };
 
   const handleRemove =(index)=>{
     dispatch(remove(index))
   }
 
   const handleCheckout = async () => {
+    setOpen(true);
     setLoader(true);
     if (!shoppinToken) {
       toast.error('You must be signed in to add items to your cart.');
-      console.log('User is not logged in.');
        navigate('/login');
       return;
     }
@@ -101,15 +86,13 @@ const Cart = () => {
       cart: cart,
       totalAmount: cartQuantity
     };
-    console.log(checkoutData);
 
     try {
       setLoader(true)
       const response = await axiosInstance.post('/checkout', checkoutData)
-      console.log(response);
       toast.success(`${response.data.message}`)
       setLoader(false)
-      navigate('/gateway')
+      // navigate('/gateway')
     } catch (error) {
       console.log(error);
       setLoader(false);
@@ -216,6 +199,23 @@ const Cart = () => {
           <button className='bg-pink-500 p-2 mb-5 rounded text-white'>START SHOPPING</button>
         </div>
       }
+      <Drawer
+        title="Shopping sphere payment gateway"
+        placement={placement}
+        width={700}
+        onClose={onClose}
+        open={open}
+        extra={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button className='bg-pink-500 hover:bg-gray-200 hover:text-pink-500 border hover:border-pink-500 text-white p-2' onClick={onClose}>
+              OK
+            </Button>
+          </Space>
+        }
+      >
+        <Paymentpage/>
+      </Drawer>
       <Tops />
       <Footer />
     </div>

@@ -78,11 +78,6 @@ const onSubmit = (data) => {
   });
 };
 
-// const paymentGateway = async ()=>{
-//   const response = await axiosInstance.post('/gateway', form)
-//   console.log(response);
-// }
-
   const handlePrevious = () => {
     dispatch(handlePreviousStep())
   }
@@ -105,7 +100,7 @@ const onSubmit = (data) => {
 
         <div className='flex lg:gap-[12%] border-gray-500 lg:border-b md:border-b lg:p-3 p-4'>
           <label htmlFor="amount" className='font-semibold'>Amount:</label>
-          <input type="text" {...register('amount', { required: true })} disabled value={`${shoppinsphereCartTotal}`} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[63%] lg:ms-0 md:ms-16 ms-16 lg:w-[75%] ${errors.amount ? 'border-red-500' : ''}`} />
+          <input type="text" {...register('amount', { required: true })} disabled value={`$${shoppinsphereCartTotal}`} className={`border border-black focus:outline-none py-1 rounded h-[35px] p-3 w-[63%] lg:ms-0 md:ms-16 ms-16 lg:w-[75%] ${errors.amount ? 'border-red-500' : ''}`} />
         </div>
         <small className='text-red-600 ms-[42%] lg:ms-[55%]'>{errors.amount && <span>This field is required</span>}</small>
 

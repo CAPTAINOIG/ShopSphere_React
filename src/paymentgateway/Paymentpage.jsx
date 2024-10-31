@@ -11,48 +11,46 @@ import Thank from './Thank';
 
 const Paymentpage = () => {
     const storeIndex = useSelector((state => state.counterReducer.address.currentStep))
-    // console.log(storeIndex);
 
     const dispatch = useDispatch()
 
     useEffect(() => {
       return () => {
-        // Dispatch an action to reset currentStep to 0 when component unmounts
         dispatch(handleNextStep({ currentStep: -1 }));
       };
     }, [dispatch]);
 
-    const list = [
-        {
-            name: 'Shipping Information',
-            icon: <MdCheckBoxOutlineBlank />,
-            icon2: <FaSquareCheck />
-          },
-          {
-            name: 'Pickup Form',
-            icon: <MdCheckBoxOutlineBlank />,
-            icon2: <FaSquareCheck />
-          },
-          {
-            name: 'Payment Gateway',
-            icon: <MdCheckBoxOutlineBlank />,
-            icon2: <FaSquareCheck />
-          },
+    // const list = [
+    //     {
+    //         name: 'Shipping Information',
+    //         icon: <MdCheckBoxOutlineBlank />,
+    //         icon2: <FaSquareCheck />
+    //       },
+    //       {
+    //         name: 'Pickup Form',
+    //         icon: <MdCheckBoxOutlineBlank />,
+    //         icon2: <FaSquareCheck />
+    //       },
+    //       {
+    //         name: 'Payment Gateway',
+    //         icon: <MdCheckBoxOutlineBlank />,
+    //         icon2: <FaSquareCheck />
+    //       },
           
-    ]
+    // ]
 
     return (
-        <section className='bg-gray-300 w-full p-5'>
-        <div className='lg:ms-[22%] justify-between lg:me-[15%] flex lg:flex-row flex-col gap-8'>
+        <section className='shadow-lg bg-pink-500 rounded-lg w-full p-5'>
+        <div className='w-full'>
           {/* <div></div> */}
-            <div className='stepContainer w-[70%]'>
+            <div className='stepContainer'>
                 {storeIndex === 0 && <Address />}
                 {storeIndex === 1 && <Delivery />}
                 {storeIndex === 2 && <Paymentgateway />}
                 {storeIndex === 3 && <Thank />}
             </div>
 
-            <div className={storeIndex > 2 ? 'hidden' : 'lg:w-[30%] rounded-lg md:w-[53%] w-[84%] md:ms-[21%] lg:ms-0 ms-7 border-2 lg:order-last bg-white -order-last mt-8 h-[30%] shadow'}>
+            {/* <div className={storeIndex > 2 ? 'hidden' : 'lg:w-[30%] rounded-lg md:w-[53%] w-[84%] md:ms-[21%] lg:ms-0 ms-7 border-2 lg:order-last bg-white -order-last mt-8 h-[30%] shadow'}>
                 {
                     list.map((items, index) => (
                         <ul key={index} className='flex justify-between border-b border-gray-500 p-5'>
@@ -61,7 +59,7 @@ const Paymentpage = () => {
                         </ul>
                     ))
                 }
-            </div>
+            </div> */}
             </div>
         </section>
 
