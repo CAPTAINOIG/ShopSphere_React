@@ -68,6 +68,9 @@ const Login = () => {
             <input type="password" className="h-[50px] w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Password" name='password' onBlur={formik.handleBlur} onChange={formik.handleChange} />
             <span className='text-red-500 text-[12px]'>{formik.touched.password && formik.errors.password}</span>
           </div>
+          <div className='text-center border font-bold text-sm w-[40%] mx-auto border-gray-300 my-5 hover:bg-gray-400 hover:border-gray-300 rounded'>
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
           <button type='submit' className="btn btn-block w-full bg-pink-500 text-white py-3 rounded-md hover:bg-gray-200 hover:text-pink-500">
             {loading ? <img src={gif} alt="" className='w-[25px] text-center mx-auto' /> : ('Log in')}
           </button>

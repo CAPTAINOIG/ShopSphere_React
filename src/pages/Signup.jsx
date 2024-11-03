@@ -29,7 +29,7 @@ const [loading, setLoading] = useState(false)
       setLoading(true);
       console.log(values);
       try {
-        const response = await axiosInstance?.post('/signup', values)
+        const response = await axiosInstance?.post('/login', values)
         console.log(response);
         toast.success(`${response?.data?.message}`)
         setLoading(false);

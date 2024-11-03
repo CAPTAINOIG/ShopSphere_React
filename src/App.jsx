@@ -13,6 +13,8 @@ import Cart from './pages/Productcart/Cart';
 import Paymentpage from './paymentgateway/Paymentpage';
 import Faqs from './productreviews/Faqs';
 import Newarrivals from './category/Newarrivals';
+import ForgotPassword from './pages/ForgotPassword';
+import PasswordReset from './pages/PasswordReset';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +41,8 @@ function App() {
         <Route path='/' element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/password-reset' element={<PasswordReset />} />
         <Route path='/faq' element={<Faqs />} />
         <Route path='/arrival' element={<Newarrivals />} />
         <Route path="/product/:productId" element={<ProductList />} />
