@@ -92,7 +92,7 @@ const Cart = () => {
       const response = await axiosInstance.post('/checkout', checkoutData)
       toast.success(`${response.data.message}`)
       setLoader(false)
-      navigate('/gateway')
+      // navigate('/gateway')
     } catch (error) {
       console.log(error);
       setLoader(false);

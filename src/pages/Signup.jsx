@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 const Signup = () => {
   const navigate = useNavigate();
 const [loading, setLoading] = useState(false)
+const [error, setError] = useState(false)
 
   let lower = new RegExp(`(?=.*[a-z])`);
   let upper = new RegExp(`(?=.*[A-Z])`);
@@ -27,17 +28,17 @@ const [loading, setLoading] = useState(false)
     },
     onSubmit: async (values) => {
       setLoading(true);
-      console.log(values);
       try {
-        const response = await axiosInstance?.post('/login', values)
+        const response = await axiosInstance?.post('/signup', values)
         console.log(response);
         toast.success(`${response?.data?.message}`)
         setLoading(false);
-        navigate('/login')
+        // navigate('/login')
       } catch (error) {
         console.log(error);
         setLoading(false);
         toast.error(`${error?.response?.data?.message}`)
+        setError(`${error?.response?.data?.message}`)
       }
     },
     validationSchema: yup.object({
@@ -57,6 +58,7 @@ const [loading, setLoading] = useState(false)
           <MdOutlineShoppingBag className='mx-auto text-center bg-pink-500 rounded-full p-3' size={30} />
         </div>
         <h5 className="text-center mb-6">Create account</h5>
+        {error && <p className='text-center text-red-500 text-sm mb-2'>{error}</p>}
         <form onSubmit={formik.handleSubmit}>
           <div className="h-[50px] mb-5">
             <input type="text" className="h-[50px] w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Firstname" name='firstname' onBlur={formik.handleBlur} onChange={formik.handleChange} />

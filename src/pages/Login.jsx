@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   let lower = new RegExp(`(?=.*[a-z])`);
   let upper = new RegExp(`(?=.*[A-Z])`);
@@ -24,23 +25,21 @@ const Login = () => {
       password: '',
     },
     onSubmit: async (values) => {
-      console.log(values);
       setLoading(true);
       try {
         const response = await axiosInstance?.post('/login', values)
-        console.log(response);
         toast.success(`${response?.data?.message}`)
         setLoading(false);
         const userData = response?.data?.user.email;
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('shoppinToken',  JSON.stringify (response.data.token));
         localStorage.setItem('userDetails',  JSON.stringify (response.data.user));
-        // let email = response.data.user.email;
         navigate('/cart');
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data.message)
         setLoading(false);
         toast.error(`${error?.response?.data?.message}`)
+        setError(error?.response?.data?.message)
       }
     },
     validationSchema: yup.object({
@@ -59,6 +58,7 @@ const Login = () => {
         </div>
 
         <h5 className="text-center mb-6">Log in</h5>
+        {error && <p className='text-center text-red-500 text-sm mb-2'>{error}</p>}
         <form onSubmit={formik.handleSubmit}>
           <div className="h-[50px] mb-5">
             <input type="email" className="h-[50px] w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Email" name='email' onBlur={formik.handleBlur} onChange={formik.handleChange} />
