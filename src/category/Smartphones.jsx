@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../axiosInstance';
+// import axiosInstance from '../axiosInstance';
 import ProductCard from './ProductCard';
 import gif from '../assets/image/gif.gif';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 
@@ -18,7 +19,7 @@ const Smartphones = () => {
   const fetchSmartphones = async () => {
     setLoader(true);
     try {
-      const response = await axiosInstance.get('/category/Smartphones');
+      const response = await axios.get('https://shopsphere-node.onrender.com/category/Smartphones');
       if(response.data && response.data.products){
         setSmartPhonesCat(response.data.products);
       }
@@ -45,7 +46,7 @@ const Smartphones = () => {
         </div>
       ) : (
         <div className='p-6 bg-gray-100'>
-          {smartPhonesCat?.length === 0 ? (
+          {smartPhonesCat.length === 0 ? (
             <p className='text-center text-lg font-semibold'>No product found</p>
           ) : (
             <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6'>

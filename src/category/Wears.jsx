@@ -4,6 +4,7 @@ import axiosInstance from '../axiosInstance'
 import ProductCard from './ProductCard';
 import gif from '../assets/image/gif.gif';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 
 const Wears = () => {
@@ -17,7 +18,7 @@ const Wears = () => {
     const wears = async () => {
       setLoader(true);
         try {
-            const response = await axiosInstance.get('/category/Clothing')
+            const response = await axios.get('https://shopsphere-node.onrender.com/category/Clothing')
             if(response.data && response.data.products){
               setCategoryWears(response.data.products)
             } else{

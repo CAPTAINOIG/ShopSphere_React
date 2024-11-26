@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axiosInstance from '../axiosInstance'
+// import axiosInstance from '../axiosInstance'
 // import ProductCard from './ProductCard'
 import { useNavigate } from 'react-router-dom'
 import gif from '../assets/image/gif.gif';
+import axios from 'axios';
 
 
 const Cloth = () => {
@@ -14,7 +15,7 @@ const Cloth = () => {
     const productId = product.id
     
     try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
+      const response = await axios.post(`https://shopsphere-node.onrender.com/return-product/${productId}`);
       if (response.data) {
         navigate(`/product/${productId}`);
       }
@@ -31,7 +32,7 @@ const Cloth = () => {
   const cloth = async () => {
     setLoader(true)
     try {
-      const response = await axiosInstance.get('/category/Shirts')
+      const response = await axios.get('https://shopsphere-node.onrender.com/category/Shirts')
       if(response.data && response.data.products){
         setClothCategory(response.data.products);
       }
