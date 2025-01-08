@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement, remove } from '../../Redux/counterSlice';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../component/Footer';
 import './Cart.css'
 import Tops from '../../category/Tops';
@@ -74,13 +75,13 @@ const Cart = () => {
   }
 
   const handleCheckout = async () => {
-    setOpen(true);
-    setLoader(true);
     if (!shoppinToken) {
-      toast.error('You must be signed in to add items to your cart.');
+      toast.error('Please login to checkout');
        navigate('/login');
       return;
     }
+    setOpen(true);
+    setLoader(true);
     const checkoutData = {
       user: userDetails,
       cart: cart,
@@ -199,6 +200,7 @@ const Cart = () => {
           <button className='bg-pink-500 p-2 mb-5 rounded text-white'>START SHOPPING</button>
         </div>
       }
+      
       <Drawer
         title="Shopping sphere payment gateway"
         placement={placement}
@@ -214,8 +216,11 @@ const Cart = () => {
           </Space>
         }
       >
+        <ToastContainer />
         <Paymentpage/>
       </Drawer>
+
+
       <Tops />
       <Footer />
     </div>

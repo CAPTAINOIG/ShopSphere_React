@@ -19,7 +19,7 @@ const Delivery = () => {
     pickupstation: yup.string()
   })
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(Schema)
   });
 
@@ -29,12 +29,12 @@ const Delivery = () => {
     dispatch(handleNextStep(form))
   };
 
-  useEffect(() => {
-    setValue('pickupname', store.pickupname)
-    setValue('pickupmail', store.pickupmail)
-    setValue('phoneNumber', store.phoneNumber)
-    setValue('pickupstation', store.pickupstation)
-  }, [])
+  // useEffect(() => {
+  //   setValue('pickupname', store.pickupname)
+  //   setValue('pickupmail', store.pickupmail)
+  //   setValue('phoneNumber', store.phoneNumber)
+  //   setValue('pickupstation', store.pickupstation)
+  // }, [])
 
 
   const handlePrevious = () => {

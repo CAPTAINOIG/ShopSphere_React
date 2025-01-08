@@ -6,7 +6,6 @@ const Countryaddress = ({setLocation}) => {
   const [localLocation, setLocalLocation] = useState('');
 
 const store = useSelector((state)=> state.counterReducer.address)
-console.log(store);
 
 
 const handleSelect = (selectedOption) => {
