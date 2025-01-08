@@ -17,6 +17,7 @@ const Allproducts = ({ allProducts, setAllProducts }) => {
     try {
       const response = await axiosInstance.get('/products');
       setAllProducts(response.data);
+      console.log(response.data);
       setLoader(false);
     } catch (error) {
       setLoader(false);
