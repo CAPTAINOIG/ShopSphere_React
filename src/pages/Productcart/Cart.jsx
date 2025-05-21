@@ -221,7 +221,6 @@ const Cart = () => {
         }
       >
         <Paymentpage />
-        <div style={{ padding: 20 }}>TEST CONTENT</div>
       </Drawer>
       <Tops />
       <Footer />
