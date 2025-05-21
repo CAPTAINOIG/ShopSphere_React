@@ -70,14 +70,14 @@ const Cart = () => {
     setCartQuantity(updatedCartQuantity)
   }, [store]);
 
-  const handleRemove =(index)=>{
+  const handleRemove = (index) => {
     dispatch(remove(index))
   }
 
   const handleCheckout = async () => {
     if (!shoppinToken) {
       toast.error('Please login to checkout');
-       navigate('/login');
+      navigate('/login');
       return;
     }
     setOpen(true);
@@ -204,7 +204,7 @@ const Cart = () => {
           <button className='bg-pink-500 p-2 mb-5 rounded text-white' onClick={startShopping}>START SHOPPING</button>
         </div>
       }
-      
+
       <Drawer
         title="Shopping sphere payment gateway"
         placement={placement}
@@ -220,11 +220,12 @@ const Cart = () => {
           </Space>
         }
       >
-        <Paymentpage/>
+        <Paymentpage />
+        <div style={{ padding: 20 }}>TEST CONTENT</div>
       </Drawer>
       <Tops />
       <Footer />
-        <ToastContainer />
+      <ToastContainer />
     </div>
 
   );
