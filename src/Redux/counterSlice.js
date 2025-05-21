@@ -29,7 +29,7 @@ export const counterSlice = createSlice({
         toast.success('product added successfully')
         productItem.cartQuantity += 1;
       }
-      localStorage.setItem("cart", JSON.stringify(state.cart)); // Update local storage
+      localStorage.setItem("cart", JSON.stringify(state.cart)); 
     },
 
     decrement: (state, action) => {
@@ -41,7 +41,7 @@ export const counterSlice = createSlice({
       else{
         toast.error('Minimum quantity reached');
       }
-      localStorage.setItem("cart", JSON.stringify(state.cart)); // Update local storage
+      localStorage.setItem("cart", JSON.stringify(state.cart)); 
     },
 
     remove: (state, action) => {
@@ -65,10 +65,15 @@ export const counterSlice = createSlice({
     handlePreviousStep: (state, action)=>{
       state.address = {...state.address, ...action.payload}
       state.address.currentStep--
-    }
+    },
+
+    clearCart: (state) => {
+      state.cart = [];
+      localStorage.removeItem("cart");
+    },
   }
 
 
   })
-export const { addToCart, increment, decrement, remove, handleNextStep, handlePreviousStep } = counterSlice.actions
+export const { addToCart, increment, decrement, remove, handleNextStep, handlePreviousStep, clearCart } = counterSlice.actions
 export default counterSlice.reducer

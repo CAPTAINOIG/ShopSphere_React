@@ -101,6 +101,10 @@ const Cart = () => {
     }
   }
 
+  const startShopping = () => {
+    navigate('/')
+  }
+
   return (
     <div className="container mx-auto p-4 bg-gray-100 sm:p-6">
       {store.length > 0 ?
@@ -197,7 +201,7 @@ const Cart = () => {
         <div className="text-center shadow-lg border border-white bg-white">
           <p className="text-xl mt-[5%]">Your cart is empty</p>
           <img src={carty} alt="Empty Cart" className="w-60 h-40 mx-auto mt-[80px] animate-bounce" />
-          <button className='bg-pink-500 p-2 mb-5 rounded text-white'>START SHOPPING</button>
+          <button className='bg-pink-500 p-2 mb-5 rounded text-white' onClick={startShopping}>START SHOPPING</button>
         </div>
       }
       
@@ -216,13 +220,11 @@ const Cart = () => {
           </Space>
         }
       >
-        <ToastContainer />
         <Paymentpage/>
       </Drawer>
-
-
       <Tops />
       <Footer />
+        <ToastContainer />
     </div>
 
   );

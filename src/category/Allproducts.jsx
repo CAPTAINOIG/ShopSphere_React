@@ -3,6 +3,10 @@ import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import gif from '../assets/image/gif.gif';
 
+
+// baseURL = 'https://shopsphere-node.onrender.com'
+// baseURL: 'http://localhost:3000',
+
 const Allproducts = ({ allProducts, setAllProducts }) => {
   const [loader, setLoader] = useState('')
 

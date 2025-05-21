@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
         navigate(`/product/${productId}`);
       }
     } catch (error) {
-      console.error("Failed to send selected product:", error);
+      // console.error("Failed to send selected product:", error);
     }
   }
 

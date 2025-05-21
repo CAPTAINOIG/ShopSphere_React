@@ -29,7 +29,7 @@ const ProductList = () => {
         setSavedProduct(response.data)  
         setSelectedImage(response.data.images.front);      
       } catch (error) {
-        console.error("Failed to fetch product data:", error);
+        // console.error("Failed to fetch product data:", error);
       }
     };
   

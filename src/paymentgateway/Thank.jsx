@@ -7,6 +7,7 @@ import { handlePreviousStep } from '../Redux/counterSlice'
 const Thank = () => {
 
     const store = useSelector(state => state.counterReducer.address)
+    console.log(store)
     // const navigate = useNavigate()
 
     const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const Thank = () => {
         <>
         <div className='lg:w-[100%]  w-[100%] h-screen'>
          <section className='flex flex-col justify-center items-center h-full mt-[-40px] md:mx-40 mx-20'>
-          <div className='text-center text-[15px] font-bold'>
+          <div className='text-center text-[15px] font-bold text-white'>
                 <p className='my-3'>Enrollment Successful!</p>
                 <p className=''>Thanks for shopping with us ......! We hope you have fun using our platform. If you ever need support, please feel free to email us at abdullahisamsudeen@gmail.com.</p>
                 {/* <p>Your Transaction</p> */}

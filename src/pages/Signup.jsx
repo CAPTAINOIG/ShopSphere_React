@@ -82,7 +82,7 @@ const [error, setError] = useState(false)
           <hr className="my-6" />
           <p className="text-center text-gray-600 mb-4">Already have an account?</p>
           <div className='text-center border font-bold text-sm w-[20%] mx-auto border-gray-300  my-5 hover:bg-gray-400 hover:border-gray-300 rounded'>
-            <Link to="/signin" >Sign in!</Link>
+            <Link to="/login" >Sign in!</Link>
           </div>
         </form>
       </div>
