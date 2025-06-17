@@ -67,7 +67,7 @@ const Navbar = ({ openToggle, allProducts }) => {
         navigate(`/product/${productId}`);
       }
     } catch (error) {
-      toast.error('Failed to fetch data');
+
     }
     
   }

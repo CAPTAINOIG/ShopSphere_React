@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../axiosInstance'
 import { useNavigate } from 'react-router-dom'
+import { toast, Toaster } from 'sonner'
 
 const Newarrivals = () => {
     const [newArrival, setNewArrival]= useState([])
@@ -37,6 +38,7 @@ const Newarrivals = () => {
 
   return (
     <>
+    <Toaster position="top-right" />
       <h3 className='text-center text-4xl font-bold my-6'>NEW ARRIVALS</h3>
       <div className="">
         <div className="grid grid-cols-2 sm:grid-cols-4 bg-gray-100 lg:grid-cols-6 xl:grid-cols-4 gap-4 p-4">

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 // import axiosInstance from '../axiosInstance';
 import ProductCard from './ProductCard';
-import { toast } from 'react-toastify';
 import axios from 'axios';
 import ProductSkeleton from '../hooks/ProductSkeleton';
+import { toast, Toaster } from 'sonner';
 
 
 const Smartphones = () => {
@@ -33,6 +33,7 @@ const Smartphones = () => {
 
   return (
     <>
+    <Toaster position="top-right" />
       <h3 className='text-center text-4xl font-bold'>Smartphones</h3>
       {loader ? (
         <ProductSkeleton />

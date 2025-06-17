@@ -1,46 +1,30 @@
 import React, { useState, useEffect } from "react";
-import {
-  Search,
-  Heart,
-  ShoppingCart,
-  Star,
-  Eye,
-  ArrowRight,
-  Clock,
-  TrendingUp,
-  Sparkles,
-  Filter,
-  Grid,
-} from "lucide-react";
+import { Grid} from "lucide-react";
 import Newsletter from "../component/Newsletter";
 import Footer from "../component/Footer";
 import { List } from "lucide-react";
 import { useGetProducts } from "../hooks/product";
 import Loader from "../hooks/Loader";
 import Count from "../component/Count";
+import ShopProductCard from "./ShopProductCard";
 
 const Shop = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [sortBy, setSortBy] = useState("New Arrival");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([1, 1500]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [visibleCount, setVisibleCount] = useState(6);
-  console.log(visibleCount);
   const [filteredProductsState, setFilteredProductsState] = useState([]);
-  console.log(filteredProductsState);
   const [categories, setCategories] = useState([]);
 
   const { data: products, isLoading, isFetching, isError } = useGetProducts();
 
-  // Initialize categories with counts
   useEffect(() => {
     if (products?.length) {
       // Extract unique categories from products
-      const uniqueCategories = [
-        ...new Set(products.map((product) => product.category)),
-      ].map((category, index) => ({
+      const uniqueCategories = [...new Set(products.map((product) => product.category))].map((category, index) => ({
         id: index + 1,
         category,
         count: products.filter((p) => p.category === category).length,
@@ -57,10 +41,14 @@ const Shop = () => {
 
   const applyFiltersAndSort = (products, sortBy, selectedCategory) => {
     let filtered = [...products];
+    filtered = filtered.filter(product => {
+    const price = product.promoPrice || product.price;
+    return price >= priceRange[0] && price <= priceRange[1];
+  });
     if (selectedCategory === "New Arrival") {
-      filtered = filtered.filter((product) => product.isNewArrival);
+      filtered = filtered.filter((product) => product.isNewArrival === true);
     } else if (selectedCategory === "Popular") {
-      filtered = filtered.filter((product) => product.isPopular);
+      filtered = filtered.filter((product) => product.isPopular === true);
     } else if (selectedCategory !== "All Products") {
       filtered = filtered.filter(
         (product) => product.category === selectedCategory
@@ -76,13 +64,7 @@ const Shop = () => {
       );
     } else if (sortBy === "popular") {
       filtered.sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
-    } else if (sortBy === "category") {
-      filtered.sort((a, b) => a.category.localeCompare(b.category));
-    } else if (sortBy === "New Arrival") {
-      // If you have a createdAt date, use that instead
-      filtered.sort((a, b) => b.id - a.id);
     }
-
     return filtered;
   };
 
@@ -122,86 +104,15 @@ const Shop = () => {
     setVisibleCount(visibleCount + 6);
   };
 
-  const ProductCard = ({ product }) => (
-    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
-      <div className="relative overflow-hidden">
-        <img
-          src={product.images.side}
-          alt={product.name}
-          className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
-        />
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {product.isNewArrival && (
-            <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full">
-              NEW
-            </span>
-          )}
-          {product.originalPrice && (
-            <span className="bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-              -
-              {Math.round(
-                ((product.originalPrice - product.price) /
-                  product.originalPrice) *
-                  100
-              )}
-              %
-            </span>
-          )}
-        </div>
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors">
-            <Heart className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-            <ShoppingCart className="w-5 h-5" />
-            Add to Cart
-          </button>
-        </div>
-      </div>
-
-      <div className="p-6">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">{product.rating}</span>
-          </div>
-        </div>
-
-        <p className="text-sm text-gray-500 mb-1">
-          {product.category.toUpperCase()}
-        </p>
-        <h3 className="font-semibold text-gray-900 mb-3">{product.name}</h3>
-
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-2xl font-bold text-gray-900">
-            ${product.promoPrice}
-          </span>
-          {product.price && (
-            <span className="text-lg text-gray-500 line-through">
-              ${product.price}
-            </span>
-          )}
-        </div>
-
-        {/* <div className="flex items-center gap-3">
-          <div className="flex gap-1">
-            {product.colors.slice(0, 3).map((color, index) => (
-              <div 
-                key={index}
-                className="w-4 h-4 rounded-full border-2 border-gray-200"
-                style={{ backgroundColor: colors.find(c => c.value === color)?.hex || color }}
-              />
-            ))}
-          </div>
-          <span className="text-sm text-gray-500">
-            {product.sizes.length} sizes
-          </span>
-        </div> */}
-      </div>
-    </div>
-  );
+const handlePriceRangeChange = (newMaxPrice) => {
+  // starting point and maxprice is the highest number eg. 1500
+  const newRange = [priceRange[0], newMaxPrice];
+  setPriceRange(newRange);
+  // Apply filters immediately
+  const filtered = applyFiltersAndSort(products || [], sortBy, selectedCategory);
+  setFilteredProductsState(filtered);
+  setVisibleCount(Math.min(6, filtered.length));
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -235,11 +146,10 @@ const Shop = () => {
                 <div className="space-y-3" id="folder">
                   <button
                     onClick={() => handleCategory("All Products")}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCategory === "all"
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${selectedCategory === "all"
                         ? "bg-black text-white"
                         : "hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <span>All Products</span>
                     <span className="text-sm opacity-75">
@@ -249,11 +159,10 @@ const Shop = () => {
 
                   <button
                     onClick={() => handleCategory("New Arrival")}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCategory === "New Arrival"
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${selectedCategory === "New Arrival"
                         ? "bg-black text-white"
                         : "hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <span>New Arrivals</span>
                     <span className="text-sm opacity-75">
@@ -263,11 +172,10 @@ const Shop = () => {
 
                   <button
                     onClick={() => handleCategory("Popular")}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCategory === "popular"
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${selectedCategory === "popular"
                         ? "bg-black text-white"
                         : "hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <span>Most Popular</span>
                     <span className="text-sm opacity-75">
@@ -279,11 +187,10 @@ const Shop = () => {
                     <button
                       key={category.id}
                       onClick={() => handleCategory(category.category)}
-                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                        selectedCategory === category.category
+                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${selectedCategory === category.category
                           ? "bg-black text-white"
                           : "hover:bg-gray-100"
-                      }`}
+                        }`}
                     >
                       <span>{category.category}</span>
                       <span className="text-sm opacity-75">
@@ -293,18 +200,15 @@ const Shop = () => {
                   ))}
                 </div>
               </div>
-              {/* Price Range */}
               <div className="mb-8">
                 <h4 className="font-semibold mb-4">Price Range</h4>
                 <div className="px-3">
                   <input
                     type="range"
                     min="0"
-                    max="1000"
+                    max="1500"
                     value={priceRange[1]}
-                    onChange={(e) =>
-                      setPriceRange([priceRange[0], parseInt(e.target.value)])
-                    }
+                    onChange={(e) => handlePriceRangeChange(parseInt(e.target.value))}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   />
                   <div className="flex justify-between mt-2 text-sm text-gray-600">
@@ -327,11 +231,10 @@ const Shop = () => {
                             : [...prev, color.value]
                         );
                       }}
-                      className={`w-8 h-8 rounded-full border-2 ${
-                        selectedColors.includes(color.value)
+                      className={`w-8 h-8 rounded-full border-2 ${selectedColors.includes(color.value)
                           ? "border-black scale-110"
                           : "border-gray-200"
-                      } transition-all`}
+                        } transition-all`}
                       style={{ backgroundColor: color.hex }}
                       title={color.name}
                     />
@@ -352,11 +255,10 @@ const Shop = () => {
                             : [...prev, size]
                         );
                       }}
-                      className={`py-2 px-3 border rounded-lg text-sm font-medium transition-colors ${
-                        selectedSizes.includes(size)
+                      className={`py-2 px-3 border rounded-lg text-sm font-medium transition-colors ${selectedSizes.includes(size)
                           ? "bg-black text-white border-black"
                           : "border-gray-200 hover:border-gray-300"
-                      }`}
+                        }`}
                     >
                       {size}
                     </button>
@@ -372,7 +274,6 @@ const Shop = () => {
                 <h2 className="text-2xl font-bold mb-2">{selectedCategory}</h2>
                 <p className="text-gray-600">
                   Showing {visibleCount} of {filteredProductsState.length}{" "}
-                  {/* Showing {filteredProductsState.length} of {products.length}{" "} */}
                   products
                 </p>
               </div>
@@ -385,8 +286,6 @@ const Shop = () => {
                     onChange={handleSortBy}
                     className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                   >
-                    <option value="New Arrival">New Arrival</option>
-                    <option value="category">category</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
                     <option value="popular">Most Popular</option>
@@ -395,21 +294,19 @@ const Shop = () => {
                 <div className="flex border border-gray-200 rounded-lg">
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 ${
-                      viewMode === "grid"
+                    className={`p-2 ${viewMode === "grid"
                         ? "bg-black text-white"
                         : "text-gray-600"
-                    } transition-colors`}
+                      } transition-colors`}
                   >
                     <Grid className="w-5 h-5" />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 ${
-                      viewMode === "list"
+                    className={`p-2 ${viewMode === "list"
                         ? "bg-black text-white"
                         : "text-gray-600"
-                    } transition-colors`}
+                      } transition-colors`}
                   >
                     <List className="w-5 h-5" />
                   </button>
@@ -424,15 +321,14 @@ const Shop = () => {
             ) : (
               <>
                 <div
-                  className={`grid gap-8 ${
-                    viewMode === "grid"
+                  className={`grid gap-8 ${viewMode === "grid"
                       ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                       : "grid-cols-1"
-                  }`}
+                    }`}
                 >
                   {filteredProductsState?.slice(0, visibleCount).map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
+                    <ShopProductCard key={product.id} product={product} />
+                  ))}
                 </div>
                 {visibleCount < filteredProductsState?.length && (
                   <div className="text-center mt-12">

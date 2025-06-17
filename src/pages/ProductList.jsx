@@ -4,13 +4,13 @@ import Productreviewpage from '../productreviews/Productreviewpage';
 import Newarrivals from '../category/Newarrivals';
 import Footer from '../component/Footer';
 import Newsletter from '../component/Newsletter';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, increment, decrement } from '../Redux/counterSlice'; // Import decrement action
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
 import gif from '../assets/image/gif.gif';
 import Cloth from '../category/Cloth';
+import { toast, Toaster } from 'sonner';
 
 const ProductList = () => {
   const {productId} = useParams();
@@ -78,6 +78,7 @@ const ProductList = () => {
 
   return (
     <div className='container mx-auto p-8'>
+      <Toaster position="top-right" />
       <div className='grid lg:grid-cols-2 gap-8'>
         <div className='lg:flex flex-auto md:flex gap-8'>
           <div>

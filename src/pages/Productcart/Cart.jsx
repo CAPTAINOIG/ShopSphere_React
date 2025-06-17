@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement, remove } from '../../Redux/counterSlice';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../component/Footer';
 import './Cart.css'
 import Tops from '../../category/Tops';
@@ -15,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 import { Button, Drawer, Radio, Space } from 'antd';
 import Paymentpage from '../../paymentgateway/Paymentpage';
-// import type { DrawerProps } from 'antd';
+import { toast, Toaster } from 'sonner';
 
 
 const Cart = () => {
@@ -107,6 +105,7 @@ const Cart = () => {
 
   return (
     <div className="container mx-auto p-4 bg-gray-100 sm:p-6">
+      <Toaster position="top-right" />
       {store.length > 0 ?
         <>
           <div className="flex flex-col lg:flex-row justify-between gap-8">
@@ -224,7 +223,6 @@ const Cart = () => {
       </Drawer>
       <Tops />
       <Footer />
-      <ToastContainer />
     </div>
 
   );

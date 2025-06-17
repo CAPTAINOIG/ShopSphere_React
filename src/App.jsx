@@ -6,8 +6,6 @@ import ProductDetails from './pages/ProductDetails';
 import Navbar from './component/Navbar';
 import Upbar from './component/Upbar';
 import { useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import ProductList from './pages/ProductList';
 import Cart from './pages/Productcart/Cart';
 import Paymentpage from './paymentgateway/Paymentpage';
@@ -53,7 +51,6 @@ function App() {
         <Route path="/cart" element={<Cart/>} />
         <Route path="/gateway" element={<Paymentpage/>} />
       </Routes>
-      <ToastContainer/>
     </div>
   );
 }

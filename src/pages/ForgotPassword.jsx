@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import * as yup from 'yup'
 import { MdOutlineShoppingBag } from "react-icons/md";
 import gif from '../assets/image/gif.gif'
-import { toast } from 'react-toastify';
 import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import { toast, Toaster } from 'sonner';
 
 const ForgotPassword = () => {
 const navigate = useNavigate();
@@ -41,6 +41,7 @@ const [loading, setLoading] = useState(false);
 
   return (
     <div id='background' className="form-membership min-h-screen flex items-center justify-center py-10">
+      <Toaster position="top-right" />
     <div className="preloader absolute inset-0 flex items-center justify-center">
       <div className="preloader-icon animate-spin"></div>
     </div>

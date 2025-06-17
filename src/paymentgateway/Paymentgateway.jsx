@@ -1,12 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart, handleNextStep, handlePreviousStep } from "../Redux/counterSlice";
+import {
+  clearCart,
+  handleNextStep,
+  handlePreviousStep,
+} from "../Redux/counterSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import PaystackPop from "@paystack/inline-js";
-import { toast, ToastContainer } from "react-toastify";
 import axiosInstance from "../axiosInstance";
+import { Toaster, toast } from "sonner";
 
 const Paymentgateway = () => {
   const store = useSelector((state) => state.counterReducer.address);
@@ -84,6 +88,7 @@ const Paymentgateway = () => {
 
   return (
     <div className="bg-white shadow rounded-lg md:ms-[15%] lg:ms-0 w-[130%] ms-5  md:w-[100%]">
+      <Toaster position="top-right" />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="lg:w-[100%] w-[100%] md:w-[100%] py-5 lg:mt-8 mt-0 px-2"
@@ -186,7 +191,6 @@ const Paymentgateway = () => {
           </button>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 };
