@@ -15,6 +15,8 @@ import Faqs from './productreviews/Faqs';
 import Newarrivals from './category/Newarrivals';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordReset from './pages/PasswordReset';
+import OnSale from './category/OnSale';
+import Shop from './category/Shop';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +38,7 @@ function App() {
   return (
     <div className='font-[Mirza]'>
       <Navbar openToggle={toggleIsOpen} allProducts={allProducts} setProducts={setAllProducts} />
-      {isOpen && <Upbar  allProducts={allProducts} setProducts={setAllProducts} />}
+      {isOpen && <Upbar allProducts={allProducts} setProducts={setAllProducts} />}
       <Routes>
         <Route path='/' element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
         <Route path='/signup' element={<Signup />} />
@@ -44,7 +46,9 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/password-reset' element={<PasswordReset />} />
         <Route path='/faq' element={<Faqs />} />
+        <Route path="/onsale" element={<OnSale />} />
         <Route path='/arrival' element={<Newarrivals />} />
+        <Route path='/shop' element={<Shop />} />
         <Route path="/product/:productId" element={<ProductList />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/gateway" element={<Paymentpage/>} />

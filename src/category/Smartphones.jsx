@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 // import axiosInstance from '../axiosInstance';
 import ProductCard from './ProductCard';
-import gif from '../assets/image/gif.gif';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
-
+import ProductSkeleton from '../hooks/ProductSkeleton';
 
 
 const Smartphones = () => {
@@ -20,11 +18,11 @@ const Smartphones = () => {
     setLoader(true);
     try {
       const response = await axios.get('https://shopsphere-node.onrender.com/category/Smartphones');
-      if(response.data && response.data.products){
+      if (response.data && response.data.products) {
         setSmartPhonesCat(response.data.products);
       }
       else {
-        setSmartPhonesCat([]); 
+        setSmartPhonesCat([]);
       }
       setLoader(false);
     } catch (error) {
@@ -37,13 +35,7 @@ const Smartphones = () => {
     <>
       <h3 className='text-center text-4xl font-bold'>Smartphones</h3>
       {loader ? (
-        <div className="flex text-center justify-center items-center ">
-        <img
-          src={gif}
-          alt="Loading..."
-          className="lg:ms-[-100px] border p-3 shadow-xl rounded-xl w-[50px] mt-10"
-        />
-        </div>
+        <ProductSkeleton />
       ) : (
         <div className='p-6 bg-gray-100'>
           {smartPhonesCat.length === 0 ? (

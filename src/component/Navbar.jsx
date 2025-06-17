@@ -90,10 +90,10 @@ const Navbar = ({ openToggle, allProducts }) => {
           <div className='mt-6 hidden lg:block'>
             <ul className='flex mx-4 justify-between gap-10'>
               <li className='font-semibold'>
-                <Link to="/" className='hover:text-pink-600 hover:font-bold'>Shop</Link>
+                <Link to="/shop" className='hover:text-pink-600 hover:font-bold'>Shop</Link>
               </li>
               <li className='font-semibold'>
-                <a href="#" className='hover:text-pink-600 hover:font-bold'>On Sale</a>
+                <Link to="/onsale" className='hover:text-pink-600 hover:font-bold'>On Sale</Link>
               </li>
               <li className='font-semibold'>
                 <Link to="/arrival" className='hover:text-pink-600 hover:font-bold'>New Arrivals</Link>

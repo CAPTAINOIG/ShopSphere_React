@@ -51,8 +51,8 @@ const Upbar = ({openToggle, allProducts}) => {
     <div className='fixed w-full ms-[-16px] md:ms-[-28px] lg:ms-0 top-0 lg:hidden text-white bg-pink-600 p-5 rounded z-0'>
       <section className='mx-1'>
         <div className='grid grid-cols-2 gap-10 text-center items-center'>
-          <Link to="/" className='font-semibold'>Shop</Link>
-          <Link to="/features" className='font-semibold'>On Sale</Link>
+          <Link to="/shop" className='font-semibold'>Shop</Link>
+          <Link to="/onsale" className='font-semibold'>On Sale</Link>
           <Link to="/arrival" className='font-semibold'>New Arrivals</Link>
           <Link to="/faq" className='font-semibold'>FAQ</Link>
           <Link to="/about" className='font-semibold'>About</Link>

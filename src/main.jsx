@@ -4,10 +4,17 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import counterReducer  from './Redux/counterSlice.js'
+import counterReducer from './Redux/counterSlice.js'
 import { configureStore } from '@reduxjs/toolkit'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const store = configureStore({
   reducer: {
@@ -17,10 +24,12 @@ const store = configureStore({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </QueryClientProvider>
   </StrictMode>,
 )

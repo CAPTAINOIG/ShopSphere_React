@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 // import axiosInstance from '../axiosInstance'
 // import ProductCard from './ProductCard'
 import { useNavigate } from 'react-router-dom'
-import gif from '../assets/image/gif.gif';
 import axios from 'axios';
+import ProductSkeleton from '../hooks/ProductSkeleton';
 
 
 const Cloth = () => {
@@ -13,7 +13,7 @@ const Cloth = () => {
 
   const handleProductClick = async (product) => {
     const productId = product.id
-    
+
     try {
       const response = await axios.post(`https://shopsphere-node.onrender.com/return-product/${productId}`);
       if (response.data) {
@@ -33,11 +33,11 @@ const Cloth = () => {
     setLoader(true)
     try {
       const response = await axios.get('https://shopsphere-node.onrender.com/category/Shirts')
-      if(response.data && response.data.products){
+      if (response.data && response.data.products) {
         setClothCategory(response.data.products);
       }
       else {
-        setClothCategory([]); 
+        setClothCategory([]);
       }
       setLoader(false);
     } catch (error) {
@@ -48,13 +48,7 @@ const Cloth = () => {
     <>
       <h3 className='text-center text-4xl my-3 font-bold'>YOU MIGHT ALSO LIKE</h3>
       {loader ? (
-     <div className="flex text-center justify-center items-center ">
-     <img
-       src={gif}
-       alt="Loading..."
-       className="lg:ms-[-100px] border p-3 shadow-xl rounded-xl w-[50px] mt-10"
-     />
-        </div>
+        <ProductSkeleton />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 bg-gray-100 lg:grid-cols-6 xl:grid-cols-4 gap-4 p-4">
           {clothCategory.length === 0 ? (
