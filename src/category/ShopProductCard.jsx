@@ -1,7 +1,7 @@
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../Redux/counterSlice";
+import { addToCart, decrement, increment } from "../Redux/counterSlice";
 import { toast, Toaster } from "sonner";
 
 const ShopProductCard = ({ product }) => {
@@ -28,6 +28,14 @@ const ShopProductCard = ({ product }) => {
     };
     dispatch(addToCart(newCart));
     toast.success("Product added successfully");
+  };
+
+  const handleIncrement = (id) => {
+    dispatch(increment(id));
+  };
+
+  const handleDecrement = (id) => {
+    dispatch(decrement(id));
   };
 
   return (
@@ -65,9 +73,9 @@ const ShopProductCard = ({ product }) => {
           </div>
           <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             {productInCart ? (
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-between text-center items-center">
                 <button
-                //   onClick={() => handleDecrement(savedProduct.id)}
+                  onClick={() => handleDecrement(product.id)}
                   className="bg-gray-400 px-4 py-2 rounded-lg text-white"
                 >
                   -
@@ -76,12 +84,11 @@ const ShopProductCard = ({ product }) => {
                   {productInCart?.cartQuantity}
                 </span>
                 <button
-                //   onClick={() => handleIncrement(savedProduct.id)}
+                  onClick={() => handleIncrement(product.id)}
                   className="bg-pink-500 px-4 py-2 rounded-lg text-white"
                 >
                   +
                 </button>
-                <span className="px-4 py-2 text-lg">{`${productInCart?.cartQuantity} items added`}</span>
               </div>
             ) : (
               <button
@@ -95,7 +102,7 @@ const ShopProductCard = ({ product }) => {
           </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
           <div className="flex items-center gap-2 mb-2">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />

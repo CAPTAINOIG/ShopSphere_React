@@ -29,12 +29,10 @@ const Tops = () => {
     const productId = product.id;
     try {
       const response = await axiosInstance.post(`/return-product/${productId}`);
-      console.log(response);
       if (response.data) {
         navigate(`/product/${productId}`);
       }
     } catch (error) {
-      console.log(error);
     }
   };
 

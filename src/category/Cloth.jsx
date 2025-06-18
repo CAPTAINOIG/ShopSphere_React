@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react'
-// import axiosInstance from '../axiosInstance'
-// import ProductCard from './ProductCard'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import ProductSkeleton from '../hooks/ProductSkeleton';
+import { useGetClothProducts } from '../hooks/product';
 
 
 const Cloth = () => {
   const navigate = useNavigate();
-  const [clothCategory, setClothCategory] = useState([])
-  const [loader, setLoader] = useState(false)
 
+  const {data: clothCategory, isLoading, isError} = useGetClothProducts();
+  
   const handleProductClick = async (product) => {
     const productId = product.id
-
     try {
       const response = await axios.post(`https://shopsphere-node.onrender.com/return-product/${productId}`);
       if (response.data) {
@@ -24,37 +22,17 @@ const Cloth = () => {
     }
   };
 
-
-  useEffect(() => {
-    cloth();
-  }, [])
-
-  const cloth = async () => {
-    setLoader(true)
-    try {
-      const response = await axios.get('https://shopsphere-node.onrender.com/category/Shirts')
-      if (response.data && response.data.products) {
-        setClothCategory(response.data.products);
-      }
-      else {
-        setClothCategory([]);
-      }
-      setLoader(false);
-    } catch (error) {
-      setLoader(false);
-    }
-  }
   return (
     <>
       <h3 className='text-center text-4xl my-3 font-bold'>YOU MIGHT ALSO LIKE</h3>
-      {loader ? (
+      {isLoading ? (
         <ProductSkeleton />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 bg-gray-100 lg:grid-cols-6 xl:grid-cols-4 gap-4 p-4">
-          {clothCategory.length === 0 ? (
+          {clothCategory.products?.length === 0 ? (
             <p className='text-center text-lg font-semibold'>No product found</p>
           ) : (
-            clothCategory.map((product, i) => (
+            clothCategory.products?.length > 0 && clothCategory.products.map((product, i) => (
               <div onClick={() => handleProductClick(product)} key={i} className="bg-white border cursor-pointer border-gray-200 rounded-lg shadow-md p-2 hover:shadow-lg transition-shadow duration-300">
                 {product?.images && product?.images?.front ? (
                   <img

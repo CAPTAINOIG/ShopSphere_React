@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 const initialCart = () => {
   //  after setting d ifo in our reducer we will collect it and pass it along
@@ -25,6 +26,7 @@ export const counterSlice = createSlice({
       let productItem = state.cart.find((item) => item.id === action.payload);
       if (productItem && productItem.cartQuantity < productItem.availableQuantity) {
         productItem.cartQuantity += 1;
+        toast.success("Product added successfully");
       }
       localStorage.setItem("cart", JSON.stringify(state.cart)); 
     },
@@ -33,6 +35,7 @@ export const counterSlice = createSlice({
       let productItem = state.cart.find((item) => item.id === action.payload);
       if (productItem && productItem.cartQuantity > 1) {
         productItem.cartQuantity -= 1;
+        toast.success("Product updated successfully");
       }
       else{
       }
@@ -48,6 +51,7 @@ export const counterSlice = createSlice({
         // Remove the item from the cart using splice
         state.cart.splice(itemIndex, 1);
         localStorage.setItem("cart", JSON.stringify(state.cart))
+        toast.success("Product removed successfully");
       }
     },
 

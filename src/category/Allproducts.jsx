@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
-import gif from "../assets/image/gif.gif";
 import ProductSkeleton from "../hooks/ProductSkeleton";
+import { useGetProducts } from "../hooks/product";
 
-// baseURL = 'https://shopsphere-node.onrender.com'
-// baseURL: 'http://localhost:3000',
 
-const Allproducts = ({ allProducts, setAllProducts }) => {
-  const [loader, setLoader] = useState("");
-
+const Allproducts = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    setLoader(true);
-    try {
-      const response = await axiosInstance.get("/products");
-      setAllProducts(response.data);
-      setLoader(false);
-    } catch (error) {
-      setLoader(false);
-    }
-  };
+  const {data:allProducts, isLoading, isError} = useGetProducts();
 
   const handleClick = async (product) => {
     const productId = product.id;
@@ -35,7 +18,6 @@ const Allproducts = ({ allProducts, setAllProducts }) => {
         navigate(`/product/${productId}`);
       }
     } catch (error) {
-      console.error("Failed to send selected product:", error);
     }
   };
 
@@ -45,7 +27,7 @@ const Allproducts = ({ allProducts, setAllProducts }) => {
         Explore Our Collection
       </h3>
 
-      {loader ? (
+      {isLoading ? (
         <ProductSkeleton />
       ) : allProducts.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-5 gap-4 p-4 bg-gray-100">
