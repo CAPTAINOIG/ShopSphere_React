@@ -16,36 +16,38 @@ import Footer from "../component/Footer";
 import { Toaster, toast } from "sonner";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
-import {useGetOnsaleProducts, useGetProducts } from "../hooks/product";
+import { useGetOnsaleProducts, useGetProducts } from "../hooks/product";
 import WelcomePopup from "../hooks/WelcomePopUp";
 import OnsaleCarousel from "./OnsaleCarousel";
+import Pagination from "../hooks/Pagination";
 
 const OnSale = () => {
-  const [saleProducts, setSaleProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [sortBy, setSortBy] = useState("discount");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(12);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [filteredProductsState, setFilteredProductsState] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate();
 
-  const {data: products, isLoading, isFetching, isError} = useGetProducts();
-  const {data: onsaleProducts, isLoading: isLoadingOnsale, isError: isErrorOnsale} = useGetOnsaleProducts();
+  const { data: products, isLoading, isFetching, isError } = useGetProducts();
+  console.log(products);
+  const {
+    data: onsaleProducts,
+    isLoading: isLoadingOnsale,
+    isError: isErrorOnsale,
+  } = useGetOnsaleProducts();
 
-  const categories = [
-    { id: "all", name: "All Items", count: totalProducts },
-    { id: "clothing", name: "Clothing", count: 0 },
-    { id: "accessories", name: "Accessories", count: 0 },
-    { id: "footwear", name: "Footwear", count: 0 },
-    { id: "bags", name: "Bags", count: 0 },
-  ];
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products?.slice(indexOfFirstProduct,indexOfLastProduct);
-  const totalPages = Math.ceil(products?.length / productsPerPage);
+  // const categories = [
+  //   { id: "all", name: "All Items", count: totalProducts },
+  //   { id: "clothing", name: "Clothing", count: 0 },
+  //   { id: "accessories", name: "Accessories", count: 0 },
+  //   { id: "footwear", name: "Footwear", count: 0 },
+  //   { id: "bags", name: "Bags", count: 0 },
+  // ];
 
   // Pagination functions
   const paginate = (pageNumber) => {
@@ -67,39 +69,82 @@ const OnSale = () => {
     }
   };
 
-  // Fetch products
   useEffect(() => {
-    fetchSaleProducts();
+    if (products?.length) {
+      // Extract unique categories from products
+      const uniqueCategories = [
+        ...new Set(products.map((product) => product.category)),
+      ].map((category, index) => ({
+        id: index + 1,
+        category,
+        count: products.filter((p) => p.category === category).length,
+      }));
+      setCategories(uniqueCategories);
+      const filtered = applyFiltersAndSort(products, sortBy, selectedCategory);
+      setFilteredProductsState(filtered);
+    } else {
+      setFilteredProductsState([]);
+    }
+  }, [products]);
 
+  const applyFiltersAndSort = (products, sortBy, selectedCategory) => {
+    let filtered = [...products];
+    //   filtered = filtered.filter(product => {
+    //   const price = product.promoPrice || product.price;
+    //   return price >= priceRange[0] && price <= priceRange[1];
+    // });
+    if (selectedCategory === "New Arrival") {
+      filtered = filtered.filter((product) => product.isNewArrival === true);
+    } else if (selectedCategory === "Popular") {
+      filtered = filtered.filter((product) => product.isPopular === true);
+    } else if (selectedCategory !== "all") {
+      filtered = filtered.filter(
+        (product) => product.category === selectedCategory
+      );
+    }
+    if (sortBy === "price-low") {
+      filtered.sort(
+        (a, b) => (a.promoPrice || a.price) - (b.promoPrice || b.price)
+      );
+    } else if (sortBy === "price-high") {
+      filtered.sort(
+        (a, b) => (b.promoPrice || b.price) - (a.promoPrice || a.price)
+      );
+    } else if (sortBy === "popular") {
+      filtered.sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
+    }
+    return filtered;
+  };
+
+  const handleSortBy = (e) => {
+    const value = e.target.value;
+    setSortBy(value);
+    const sortedFiltered = applyFiltersAndSort(
+      products || [],
+      value,
+      selectedCategory
+    );
+    setFilteredProductsState(sortedFiltered);
+    setCurrentPage(1);
+  };
+
+  const handleCategory = (categoryName) => {
+    setSelectedCategory(categoryName);
+    const sortedFiltered = applyFiltersAndSort(
+      products || [],
+      sortBy,
+      categoryName
+    );
+    setFilteredProductsState(sortedFiltered);
+  };
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % onsaleProducts?.products?.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [currentPage, selectedCategory, sortBy]);
+  }, [currentPage]);
 
-  const fetchSaleProducts = async () => {
-    try {
-    //   setIsLoading(true);
-      let endpoint = `/products/on-sale?page=${currentPage}&limit=${productsPerPage}`;
-
-      if (selectedCategory !== "all") {
-        endpoint += `&category=${selectedCategory}`;
-      }
-      if (sortBy) {
-        endpoint += `&sort=${sortBy}`;
-      }
-
-      const response = await axiosInstance.get(endpoint);
-      setSaleProducts(response.data.products);
-      setTotalProducts(response.data.totalCount);
-    } catch (error) {
-      toast.error("Failed to fetch sale products");
-    } finally {
-    //   setIsLoading(false);
-    }
-  };
-
-  // Handle product click
   const handleProductClick = async (product) => {
     const productId = product.id;
     try {
@@ -113,7 +158,14 @@ const OnSale = () => {
     }
   };
 
-  // Product card component
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products?.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(products?.length / productsPerPage);
+
   const ProductCard = ({ product }) => (
     <div className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="relative overflow-hidden aspect-square">
@@ -239,15 +291,16 @@ const OnSale = () => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-3xl font-bold">Featured Deals</h2>
             <div className="flex gap-2">
-              {onsaleProducts?.products?.length > 0 && onsaleProducts?.products.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    currentSlide === index ? "bg-black" : "bg-gray-300"
-                  }`}
-                />
-              ))}
+              {onsaleProducts?.products?.length > 0 &&
+                onsaleProducts?.products.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      currentSlide === index ? "bg-black" : "bg-gray-300"
+                    }`}
+                  />
+                ))}
             </div>
           </div>
 
@@ -256,42 +309,73 @@ const OnSale = () => {
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              {onsaleProducts?.products?.length > 0 && onsaleProducts?.products.map((product) => (
-                <OnsaleCarousel product={product} key={product.id} handleProductClick={handleProductClick} />
-              ))}
+              {onsaleProducts?.products?.length > 0 &&
+                onsaleProducts?.products.map((product) => (
+                  <OnsaleCarousel
+                    product={product}
+                    key={product.id}
+                    handleProductClick={handleProductClick}
+                  />
+                ))}
             </div>
           </div>
         </div>
 
         {/* Filters and Categories */}
+          <h4 className="font-semibold mb-4">Categories</h4>
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            <div className="flex flex-wrap gap-2">
               <button
-                key={category.id}
-                onClick={() => {
-                  setSelectedCategory(category.id);
-                  setCurrentPage(1);
-                }}
-                className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                  selectedCategory === category.id
-                    ? "bg-black text-white shadow-lg"
+                onClick={() => handleCategory("All Products")}
+                className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                  selectedCategory === "All Products"
+                   ? "bg-black text-white shadow-lg"
                     : "bg-white text-gray-700 hover:bg-gray-100 shadow-md"
                 }`}
               >
-                {category.name}{" "}
-                {category.count > 0 &&
-                  `(${category.id === "all" ? totalProducts : category.count})`}
+                <span>All Products</span>
+                <span className="text-sm opacity-75">
+                  ({products?.length || 0})
+                </span>
               </button>
-            ))}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => handleCategory("popular")}
+                className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                  selectedCategory === "popular"
+                   ? "bg-black text-white shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-gray-100 shadow-md"
+                }`}
+              >
+                <span>Most Popular</span>
+                <span className="text-sm opacity-75">
+                  ({products?.filter((p) => p.isPopular)?.length || 0})
+                </span>
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => handleCategory("newest")}
+                className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                  selectedCategory === "newest"
+                   ? "bg-black text-white shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-gray-100 shadow-md"
+                }`}
+              >
+                <span>New Arrivals</span>
+                <span className="text-sm opacity-75">
+                  ({products?.filter((p) => p.isNewArrival)?.length || 0})
+                </span>
+              </button>
+            </div>
+           
           </div>
           <div className="flex items-center gap-4">
             <select
-              value={sortBy}
-              onChange={(e) => {
-                setSortBy(e.target.value);
-                setCurrentPage(1);
-              }}
+              // value={sortBy}
+              onChange={handleSortBy}
               className="border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
             >
               <option value="discount">Highest Discount</option>
@@ -325,12 +409,6 @@ const OnSale = () => {
             <p className="text-gray-500 text-lg">
               No sale products found in this category
             </p>
-            <button
-              onClick={fetchSaleProducts}
-              className="mt-4 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
-            >
-              Refresh
-            </button>
           </div>
         ) : (
           <>
@@ -347,7 +425,7 @@ const OnSale = () => {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
+            {/* {totalPages > 1 && (
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4 my-12">
                 <div className="text-sm text-gray-500">
                   Showing {indexOfFirstProduct + 1}-
@@ -430,7 +508,19 @@ const OnSale = () => {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              products={products}
+              paginate={paginate}
+              prevPage={prevPage}
+              nextPage={nextPage}
+              setCurrentPage={setCurrentPage}
+              indexOfLastProduct={indexOfLastProduct}
+              indexOfFirstProduct={indexOfFirstProduct}
+              currentProducts={currentProducts}
+            />
           </>
         )}
 

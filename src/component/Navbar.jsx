@@ -72,11 +72,7 @@ const Navbar = ({ openToggle, allProducts }) => {
     
   }
 
-  const location = useLocation();
-  const hiddenRoutes = ['/gateway'];
-  const isHidden = hiddenRoutes.some(route => location.pathname.startsWith(route));
-
-  return isHidden ? null : (
+  return (
     <>
       <Carousel />
       <nav className='m-0 lg:ps-10 shadow w-full sticky top-0 bg-white py-5 z-[1000]'>
