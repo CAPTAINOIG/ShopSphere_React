@@ -40,3 +40,23 @@ export const useGetCategoryWearsProducts = () => {
     },
   });
 } 
+
+export const useGetCategoryAccessoriesProducts = () => {
+  return useQuery({
+    queryKey: ["category-accessories-products"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/category/Accessories");
+      return response.data;
+    },
+  });
+} 
+
+export const useGetOnsaleProducts = () => {
+  return useQuery({
+    queryKey: ["onsale-products"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/category/onSale");
+      return response.data;
+    },
+  });
+};

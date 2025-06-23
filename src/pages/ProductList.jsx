@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Starrated from '../component/Starrated';
 import Productreviewpage from '../productreviews/Productreviewpage';
-import Newarrivals from '../category/Newarrivals';
 import Footer from '../component/Footer';
 import Newsletter from '../component/Newsletter';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +10,7 @@ import axiosInstance from '../axiosInstance';
 import gif from '../assets/image/gif.gif';
 import Cloth from '../category/Cloth';
 import { toast, Toaster } from 'sonner';
+import Accessories from '../category/Accessories';
 
 const ProductList = () => {
   const {productId} = useParams();
@@ -158,7 +158,7 @@ const ProductList = () => {
         </div>
       </div>
       <Productreviewpage savedProduct={savedProduct} setSavedProduct={setSavedProduct} />
-      <Newarrivals />
+      <Accessories/>
       <Cloth />
       <Newsletter />
       <Footer />

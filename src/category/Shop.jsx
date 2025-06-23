@@ -7,6 +7,7 @@ import { useGetProducts } from "../hooks/product";
 import Loader from "../hooks/Loader";
 import Count from "../component/Count";
 import ShopProductCard from "./ShopProductCard";
+import WelcomePopup from "../hooks/WelcomePopUp";
 
 const Shop = () => {
   const [viewMode, setViewMode] = useState("grid");
@@ -241,30 +242,6 @@ const handlePriceRangeChange = (newMaxPrice) => {
                   ))}
                 </div>
               </div>
-              {/* Sizes */}
-              <div className="mb-8">
-                <h4 className="font-semibold mb-4">Sizes</h4>
-                <div className="grid grid-cols-3 gap-2">
-                  {sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => {
-                        setSelectedSizes((prev) =>
-                          prev.includes(size)
-                            ? prev.filter((s) => s !== size)
-                            : [...prev, size]
-                        );
-                      }}
-                      className={`py-2 px-3 border rounded-lg text-sm font-medium transition-colors ${selectedSizes.includes(size)
-                          ? "bg-black text-white border-black"
-                          : "border-gray-200 hover:border-gray-300"
-                        }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
           <div className="flex-1">
@@ -277,7 +254,7 @@ const handlePriceRangeChange = (newMaxPrice) => {
                   products
                 </p>
               </div>
-
+              <WelcomePopup />
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">Sort by:</span>

@@ -7,6 +7,7 @@ import Allproducts from '../category/Allproducts';
 import Customer from '../customer/Customer';
 import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
+import WelcomePopup from '../hooks/WelcomePopUp';
 
 const ProductDetails = ({ allProducts, setAllProducts }) => {
   return (
@@ -14,6 +15,7 @@ const ProductDetails = ({ allProducts, setAllProducts }) => {
       <Homepage />
       <Sponsor />
       <Smartphones />
+      <WelcomePopup/>
       <Wears />
       <Allproducts allProducts={allProducts} setAllProducts={setAllProducts} />
       <Customer />

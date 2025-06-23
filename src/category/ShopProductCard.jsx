@@ -125,20 +125,6 @@ const ShopProductCard = ({ product }) => {
               </span>
             )}
           </div>
-          {/* <div className="flex items-center gap-3">
-             <div className="flex gap-1">
-               {product.colors.slice(0, 3).map((color, index) => (
-                 <div 
-                   key={index}
-                   className="w-4 h-4 rounded-full border-2 border-gray-200"
-                   style={{ backgroundColor: colors.find(c => c.value === color)?.hex || color }}
-                 />
-               ))}
-             </div>
-             <span className="text-sm text-gray-500">
-               {product.sizes.length} sizes
-             </span>
-           </div> */}
         </div>
       </div>
     </div>
