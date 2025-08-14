@@ -9,6 +9,12 @@ import { useGetCategoryWearsProducts } from "../hooks/product";
 const Wears = () => {
   const {data: categoryWears, isLoading, isError} = useGetCategoryWearsProducts();
 
+  useEffect(() => {
+    if (isError) {
+      toast.error("Something went wrong");
+    }
+  }, [isError]);
+
   return (
     <>
       <Toaster position="top-right" />

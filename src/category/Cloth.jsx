@@ -16,6 +16,7 @@ const Cloth = () => {
       const response = await axios.post(`https://shopsphere-node.onrender.com/return-product/${productId}`);
       if (response.data) {
         navigate(`/product/${productId}`);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } catch (error) {
       console.error("Failed to send selected product:", error);

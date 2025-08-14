@@ -14,6 +14,7 @@ const Accessories = () => {
         const response = await axiosInstance.post(`/return-product/${productId}`);
         if (response.data) {
           navigate(`/product/${productId}`);
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       } catch (error) {
         console.error("Failed to send selected product:", error);

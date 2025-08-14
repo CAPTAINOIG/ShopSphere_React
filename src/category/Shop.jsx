@@ -8,6 +8,7 @@ import Loader from "../hooks/Loader";
 import Count from "../component/Count";
 import ShopProductCard from "./ShopProductCard";
 import WelcomePopup from "../hooks/WelcomePopUp";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const [viewMode, setViewMode] = useState("grid");
@@ -117,31 +118,30 @@ const handlePriceRangeChange = (newMaxPrice) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <span>Home</span>
+          <Link to="/" className="text-gray-900">
+            Home
+          </Link>
           <span>/</span>
           <span className="text-gray-900">Shop</span>
         </div>
-        <div className="bg-gradient-to-r from-black to-gray-800 rounded-3xl p-12 mb-12 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-r from-black to-gray-800 rounded-3xl p-12 mb-12 text-white relative overflow-hidden text-center">
           <div className="relative z-10">
             <h1 className="text-5xl font-bold mb-4">
               Find Clothes That Match Your Style
             </h1>
-            <p className="text-xl mb-8 max-w-2xl opacity-90">
+            <p className="text-xl mb-8 opacity-90">
               Browse through our diverse range of meticulously crafted garments,
               designed to bring out your individuality and cater to your sense
               of style.
             </p>
-            <Count />
           </div>
           <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-transparent via-transparent to-black/20"></div>
         </div>
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
           <div className="w-full lg:w-80 flex-shrink-0 mb-8 lg:mb-0">
             <div className="bg-white rounded-2xl p-6 lg:sticky lg:top-24">
-              {/* Categories */}
               <div className="mb-8">
                 <h4 className="font-semibold mb-4">Categories</h4>
                 <div className="space-y-3" id="folder">
