@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const ErrorPage = ({
   statusCode = 404,
@@ -30,6 +32,8 @@ const ErrorPage = ({
   };
 
   return (
+    <>
+    <Navbar/>
     <div style={{
       display: 'flex',
       flexDirection: 'column',
@@ -58,7 +62,7 @@ const ErrorPage = ({
             fallback.style.marginBottom = '1rem';
             e.target.parentNode.insertBefore(fallback, e.target.nextSibling);
           }}
-        />
+          />
       )}
 
       <h1 style={{ 
@@ -103,11 +107,13 @@ const ErrorPage = ({
             e.currentTarget.style.backgroundColor = 'pink';
             e.currentTarget.style.transform = 'translateY(0)';
           }}
-        >
+          >
           {redirectText}
         </button>
       )}
     </div>
+    <Footer/>
+      </>
   );
 };
 
