@@ -17,7 +17,7 @@ import { Toaster, toast } from "sonner";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { useGetOnsaleProducts, useGetProducts } from "../hooks/product";
-import WelcomePopup from "../hooks/WelcomePopUp";
+import WelcomePopup from "../hooks/WelcomePopup";
 import OnsaleCarousel from "./OnsaleCarousel";
 import Pagination from "../hooks/Pagination";
 

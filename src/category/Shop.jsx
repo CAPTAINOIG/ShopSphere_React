@@ -7,7 +7,7 @@ import { useGetProducts } from "../hooks/product";
 import Loader from "../hooks/Loader";
 import Count from "../component/Count";
 import ShopProductCard from "./ShopProductCard";
-import WelcomePopup from "../hooks/WelcomePopUp";
+import WelcomePopup from "../hooks/WelcomePopup";
 import { Link } from "react-router-dom";
 
 const Shop = () => {
