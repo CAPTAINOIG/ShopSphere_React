@@ -13,7 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import PasswordReset from './pages/PasswordReset';
 import OnSale from './category/OnSale';
 import Shop from './category/Shop';
-import ErrorPage from './component/Errorpage';
+import ErrorPage from './component/ErrorPage';
 import Upbar from './component/Upbar';
 import NavbarLayout from './component/NavbarLayout';
 
