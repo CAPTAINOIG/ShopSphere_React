@@ -20,6 +20,7 @@ import { useGetOnsaleProducts, useGetProducts } from "../hooks/product";
 import WelcomePopup from "../hooks/WelcomePopup";
 import OnsaleCarousel from "./OnsaleCarousel";
 import Pagination from "../hooks/Pagination";
+import OnsaleProduct from "./OnsaleProduct";
 
 const OnSale = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Products");
@@ -87,17 +88,17 @@ const OnSale = () => {
   );
   const totalPages = Math.ceil(products?.length / productsPerPage);
 
-  const handleAddToCart = async (product) => {
-    const productId = product.id;
-    try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
-    } catch (error) {
-      toast.error("Failed to fetch product details");
-    }
-  };
+  // const handleAddToCart = async (product) => {
+  //   const productId = product.id;
+  //   try {
+  //     const response = await axiosInstance.post(`/return-product/${productId}`);
+  //     if (response.data) {
+  //       navigate(`/product/${productId}`);
+  //     }
+  //   } catch (error) {
+  //     toast.error("Failed to fetch product details");
+  //   }
+  // };
 
   const ProductCard = ({ product }) => (
     <div className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -137,7 +138,7 @@ const OnSale = () => {
           </button>
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+        {/* <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -148,7 +149,7 @@ const OnSale = () => {
             <ShoppingCart className="w-4 h-4" />
             Quick Add
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="p-4">
@@ -282,7 +283,7 @@ const OnSale = () => {
                   onClick={() => handleProductClick(product)}
                   className="cursor-pointer"
                 >
-                  <ProductCard product={product} />
+                  <OnsaleProduct product={product} />
                 </div>
               ))}
             </div>

@@ -11,6 +11,7 @@ import gif from '../assets/image/gif.gif';
 import Cloth from '../category/Cloth';
 import { toast, Toaster } from 'sonner';
 import Accessories from '../category/Accessories';
+import ProductSkeleton from '../hooks/ProductSkeleton';
 
 const ProductList = () => {
   const {productId} = useParams();
@@ -19,20 +20,24 @@ const ProductList = () => {
   
   const [selectedImage, setSelectedImage] = useState(''); 
   const [savedProduct, setSavedProduct] = useState({})
-  const productInCart = store?.find((item) => item?.id === savedProduct?.id);
+  const [isLoading, setIsLoading] = useState(true);
   
+  const productInCart = store?.find((item) => item?.id === savedProduct?.id);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProduct = async () => {
       try {
         const response = await axiosInstance.get(`/product/${productId}`);
         setSavedProduct(response.data)  
-        setSelectedImage(response.data.images.front);      
+        setSelectedImage(response.data.images.front);   
+        setIsLoading(false);
       } catch (error) {
         // console.error("Failed to fetch product data:", error);
+        toast.error("Failed to fetch product data");
+        setIsLoading(false);
       }
     };
-  
     fetchProduct();
   }, [productId]);
 
@@ -70,20 +75,26 @@ const ProductList = () => {
     setSelectedImage(newImage); 
   };
 
-  if (!savedProduct.name) return <div> <img
-  src={gif}
-  alt="Loading..."
-  className="lg:ms-[-100px] border p-3 shadow-xl rounded-xl w-[100px] mt-10"
-/></div>;
+  if (isLoading) {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <img
+        src={gif}
+        alt="Loading..."
+        className="w-[100px] mt-10"
+      />
+    </div>
+  );
+}
 
   return (
     <div className='container mx-auto p-8'>
       <Toaster position="top-right" />
-      <div className='grid lg:grid-cols-2 gap-8'>
-        <div className='lg:flex flex-auto md:flex gap-8'>
-          <div>
-            <img
-              src={savedProduct?.images?.side}
+        <div className='grid lg:grid-cols-2 gap-8'>
+          <div className='lg:flex flex-auto md:flex gap-8'>
+            <div>
+              <img
+                src={savedProduct?.images?.side}
               alt='Side View'
               className={`w-full hover:border-blue-500 rounded-lg my-2 bg-gray-200 p-4 h-32 object-cover cursor-pointer border ${selectedImage === savedProduct?.images?.side ? 'border-pink-500' : 'border-gray-900'
                 }`}
