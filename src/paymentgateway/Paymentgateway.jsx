@@ -58,9 +58,7 @@ const Paymentgateway = () => {
             paymentStatus: "success",
             amount: shoppinsphereCartTotal,
           };
-
-          axiosInstance
-            .post("/gateway", form)
+          axiosInstance.post("/gateway", form)
             .then((response) => {
               localStorage.removeItem("shoppinsphereCartTotal");
               localStorage.removeItem("shoppinsphereCart");
@@ -68,13 +66,11 @@ const Paymentgateway = () => {
               dispatch(handleNextStep(form));
             })
             .catch((error) => {
-              console.error("Error sending data to backend:", error);
               toast.error("There was an error processing your order.");
             });
         }
       },
       onCancel: () => {
-        // console.log('Cancelled', 'You have cancelled the transaction', 'info');
         toast.error("Cancelled", "You have cancelled the transaction", "info");
 
         dispatch(handlePaymentCancelled());
@@ -87,7 +83,7 @@ const Paymentgateway = () => {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg md:ms-[15%] lg:ms-0 w-[130%] ms-5  md:w-[100%]">
+    <div className="bg-white shadow rounded-lg w-full max-w-2xl mx-auto p-4">
       <Toaster position="top-right" />
       <form
         onSubmit={handleSubmit(onSubmit)}

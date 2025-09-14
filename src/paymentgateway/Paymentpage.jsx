@@ -10,11 +10,11 @@ const Paymentpage = () => {
   const storeIndex = useSelector((state) => state.counterReducer.currentStep);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(handleNextStep({ currentStep: -1 }));
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(handleNextStep({ currentStep: -1 }));
+  //   };
+  // }, [dispatch]);
 
   return (
     <section className="shadow-lg bg-pink-500 rounded-lg w-full p-5">

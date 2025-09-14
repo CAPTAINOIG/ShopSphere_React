@@ -8,8 +8,6 @@ import * as yup from 'yup';
 
 const Delivery = () => {
   const store = useSelector((state) => state.counterReducer.address)
-  console.log(store);
-
   const dispatch = useDispatch();
 
   const Schema = yup.object().shape({
@@ -25,24 +23,15 @@ const Delivery = () => {
 
   const onSubmit = (data) => {
     let form = { ...store, ...data };
-    console.log(form);
     dispatch(handleNextStep(form))
   };
-
-  // useEffect(() => {
-  //   setValue('pickupname', store.pickupname)
-  //   setValue('pickupmail', store.pickupmail)
-  //   setValue('phoneNumber', store.phoneNumber)
-  //   setValue('pickupstation', store.pickupstation)
-  // }, [])
-
 
   const handlePrevious = () => {
     dispatch(handlePreviousStep())
   };
 
   return (
-    <div className='bg-white shadow rounded-lg py-5 md:ms-[15%] lg:ms-0 w-[130%] ms-5  md:w-[100%]'>
+    <div className="bg-white shadow rounded-lg w-full max-w-2xl mx-auto p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="lg:w-[100%] w-[100%] md:w-[100%] py-5 lg:mt-8 mt-0 px-2">
         <h1 className='text-center font-bold text-2xl'>PickupForm Information</h1>
         <div className='flex lg:gap-10 gap-3 border-gray-500 lg:border-b md:border-b lg:p-3 p-4'>
@@ -74,7 +63,7 @@ const Delivery = () => {
         </div>
         <div className='flex justify-around mt-5'>
           <button className='lg:w-[30%] md:w-[100%] w-[100%] bg-pink-500 rounded hover:bg-gray-200 hover:text-pink-500 text-white p-2' onClick={handlePrevious}>Previous</button>
-          <button className='lg:w-[30%] md:w-[100%] w-[100%] bg-pink-500 rounded hover:bg-gray-200 hover:text-pink-500 text-white p-2' type='submit'>Next</button>
+          <button type='submit' className='lg:w-[30%] md:w-[100%] w-[100%] bg-pink-500 rounded hover:bg-gray-200 hover:text-pink-500 text-white p-2'>Next</button>
         </div>
       </form>
     </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import ava1 from '../assets/image/ava2.png';
 import { Link } from "react-router-dom";
 import Count from "./Count";
 

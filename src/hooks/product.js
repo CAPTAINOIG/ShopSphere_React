@@ -60,3 +60,13 @@ export const useGetOnsaleProducts = () => {
     },
   });
 };
+
+export const useGetNewArrivalsProducts = () => {
+  return useQuery({
+    queryKey: ["new-arrivals-products"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/category/Tops");
+      return response.data;
+    },
+  });
+};

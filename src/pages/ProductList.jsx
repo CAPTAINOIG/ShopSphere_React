@@ -12,6 +12,7 @@ import Cloth from '../category/Cloth';
 import { toast, Toaster } from 'sonner';
 import Accessories from '../category/Accessories';
 import ProductSkeleton from '../hooks/ProductSkeleton';
+import ProductDetailsSkeleton from '../hooks/ProductDetailsSkeleton';
 
 const ProductList = () => {
   const {productId} = useParams();
@@ -33,7 +34,6 @@ const ProductList = () => {
         setSelectedImage(response.data.images.front);   
         setIsLoading(false);
       } catch (error) {
-        // console.error("Failed to fetch product data:", error);
         toast.error("Failed to fetch product data");
         setIsLoading(false);
       }
@@ -77,12 +77,8 @@ const ProductList = () => {
 
   if (isLoading) {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <img
-        src={gif}
-        alt="Loading..."
-        className="w-[100px] mt-10"
-      />
+    <div>
+      <ProductDetailsSkeleton/>
     </div>
   );
 }

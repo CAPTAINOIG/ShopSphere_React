@@ -14,7 +14,7 @@ export const counterSlice = createSlice({
   initialState: {
     cart: initialCart(),
     address: {},           
-    currentStep: 1, 
+    currentStep: 0, 
   },
   reducers: {
     addToCart: (state, payload) => {
@@ -57,12 +57,12 @@ export const counterSlice = createSlice({
 
     handleNextStep: (state, action)=>{
       state.address = {...state.address, ...action.payload}
-      state.address.currentStep++
+      state.currentStep++
     },
     
     handlePreviousStep: (state, action)=>{
       state.address = {...state.address, ...action.payload}
-      state.address.currentStep--
+      state.currentStep--
     },
 
     clearCart: (state) => {
