@@ -5,7 +5,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axiosInstance from "../axiosInstance";
 import gif from "../assets/image/gif.gif";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
+import Footer from "../component/Footer";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -160,6 +161,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

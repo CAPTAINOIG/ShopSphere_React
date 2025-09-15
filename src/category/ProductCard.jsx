@@ -1,25 +1,24 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../axiosInstance';
+import { usePostProductClick } from '../hooks/product';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
-  const handleClick = async(product) => {
-    const productId = product.id;
-    try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
-    } catch (error) {
-      // console.error("Failed to send selected product:", error);
-    }
-  }
+   const { mutateAsync: postProductClick } = usePostProductClick();
+ 
+   const handleProductClick = async (product) => {
+     try {
+       const response = await postProductClick({ productId: product.id });
+       navigate(`/product/${product.id}`);
+       window.scrollTo({ top: 0, behavior: "smooth" });
+     } catch (error) {
+       toast.error(error.message);
+     }
+   };
 
   return (
     <div
-      onClick={() => handleClick(product)}
+      onClick={() => handleProductClick(product)}
       className='bg-white border cursor-pointer border-gray-200 rounded-lg shadow-md overflow-hidden'
     >
       <div className='p-4'>

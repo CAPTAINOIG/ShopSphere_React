@@ -8,8 +8,9 @@ import { BsSearch } from 'react-icons/bs';
 import { FaCartShopping } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../axiosInstance';
+import { useGetProducts, usePostProductClick } from '../hooks/product';
 
-const Navbar = ({ openToggle, allProducts }) => {
+const Navbar = ({ openToggle }) => {
 
   const store = useSelector((state) => state.counterReducer.cart);
 
@@ -19,6 +20,9 @@ const Navbar = ({ openToggle, allProducts }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [totalProduct, setTotalProduct] = useState('');
+
+  const {data:allProducts} = useGetProducts();
+  const {mutateAsync: postProductClick} = usePostProductClick();
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
@@ -60,16 +64,13 @@ const Navbar = ({ openToggle, allProducts }) => {
   }
 
   const handleFilteredProducts = async(product)=>{
-   const productId = product.id;
     try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
+      const response = await postProductClick({ productId: product.id });
+      navigate(`/product/${product.id}`);
+      setSearchQuery('');
     } catch (error) {
-
+      toast.error(error.message);
     }
-    
   }
 
   return (

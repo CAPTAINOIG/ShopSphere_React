@@ -8,40 +8,9 @@ import { useGetNewArrivalsProducts } from "../hooks/product";
 import ShopProductCard from "./ShopProductCard";
 
 const Newarrivals = () => {
-  // const [newArrival, setNewArrival] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const { data: newArrival, isLoading, isError } = useGetNewArrivalsProducts();
-  console.log(newArrival);
-  // useEffect(() => {
-  //   arrival();
-  // }, []);
-
-  // const arrival = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await axiosInstance.get('/category/Tops');
-  //     console.log(response.data.products);
-  //     setNewArrival(response.data.products);
-  //   } catch (error) {
-  //     toast.error('Failed to fetch data');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
-
-  const handleProductClick = async (product) => {
-    const productId = product.id;
-    try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
-    } catch (error) {
-      toast.error("Failed to fetch data");
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">

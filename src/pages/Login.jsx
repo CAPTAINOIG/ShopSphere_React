@@ -6,6 +6,7 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import gif from '../assets/image/gif.gif'
 import axiosInstance from '../axiosInstance';
 import { toast, Toaster } from 'sonner';
+import Footer from '../component/Footer';
 
 
 const Login = () => {
@@ -48,6 +49,7 @@ const Login = () => {
     })
   })
   return (
+    <>
     <div id='background' className="form-membership min-h-screen flex items-center justify-center py-10">
       <Toaster position="top-right" />
       <div className="preloader absolute inset-0 flex items-center justify-center">
@@ -83,6 +85,8 @@ const Login = () => {
         </form>
       </div>
     </div>
+      <Footer/>
+    </>
   );
 };
 

@@ -1,23 +1,20 @@
 import React from 'react'
-import { useGetCategoryAccessoriesProducts } from '../hooks/product';
-import axiosInstance from '../axiosInstance';
+import { useGetCategoryAccessoriesProducts, usePostProductClick } from '../hooks/product';
 import {useNavigate } from 'react-router-dom';
 
 const Accessories = () => {
     const navigate = useNavigate();
     const {data: accessoriesCategory, isLoading, isError} = useGetCategoryAccessoriesProducts();
+    const {mutateAsync: postProductClick} = usePostProductClick();
 
 
     const handleProductClick = async (product) => {
-      const productId = product.id
       try {
-        const response = await axiosInstance.post(`/return-product/${productId}`);
-        if (response.data) {
-          navigate(`/product/${productId}`);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        const response = await postProductClick({productId: product.id});
+        navigate(`/product/${product.id}`);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
-        console.error("Failed to send selected product:", error);
+        toast.error(error.message);
       }
     }
 

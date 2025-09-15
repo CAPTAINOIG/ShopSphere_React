@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import axiosInstance from "../axiosInstance";
 import { toast, Toaster } from "sonner";
+import { useNewsLetter } from "../hooks/product";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
+  const { mutateAsync: postNews } = useNewsLetter();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,19 +21,17 @@ const Newsletter = () => {
       return;
     }
     try {
-      const response = await axiosInstance.post("/news", { email });
-      console.log(response?.data);
-      toast.success(`${response?.data?.message}`);
+      const response = await postNews(email);
+      toast.success(`${response?.message}`);
     } catch (error) {
-      console.log(error?.response?.data?.message);
       toast.error(`${error?.response?.data?.message}`);
     }
   };
+
   return (
     <>
       <Toaster position="top-right" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 md:gap-8 sm:gap-6 mx-5 lg:mx-10 bg-gray-800 my-5 rounded-md p-4 lg:p-6">
-        {/* Text Section */}
         <div className="flex flex-col justify-center items-center lg:items-start">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center lg:text-left mb-2">
             DON'T MISS OUT ON OUR
@@ -40,8 +40,6 @@ const Newsletter = () => {
             LATEST PROMOTIONS AND UPDATES
           </h2>
         </div>
-
-        {/* Email Input and Button Section */}
         <div className="flex flex-col justify-center gap-4 lg:gap-4 lg:ms-10 md:ms-8 sm:ms-6 ms-0">
           <div className="relative flex w-full lg:max-w-sm items-center border bg-white border-gray-300 rounded-full h-10 px-3">
             <MdEmail className="text-gray-400" size={20} />

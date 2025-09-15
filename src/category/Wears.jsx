@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import ProductCard from "./ProductCard";
-import axios from "axios";
 import ProductSkeleton from "../hooks/ProductSkeleton";
 import { toast, Toaster } from "sonner";
 import { useGetCategoryWearsProducts } from "../hooks/product";

@@ -1,27 +1,25 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import ProductSkeleton from '../hooks/ProductSkeleton';
-import { useGetClothProducts } from '../hooks/product';
+import { useGetClothProducts, usePostProductClick } from '../hooks/product';
+import { toast } from 'sonner';
 
 
 const Cloth = () => {
   const navigate = useNavigate();
 
   const {data: clothCategory, isLoading, isError} = useGetClothProducts();
+  const {mutateAsync: postProductClick} = usePostProductClick();
   
   const handleProductClick = async (product) => {
-    const productId = product.id
-    try {
-      const response = await axios.post(`https://shopsphere-node.onrender.com/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+   try {
+     const response = await postProductClick({productId: product.id});
+     navigate(`/product/${product.id}`);
+     window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
-      console.error("Failed to send selected product:", error);
+      toast.error(error.message);
     }
-  };
+  }
 
   return (
     <>

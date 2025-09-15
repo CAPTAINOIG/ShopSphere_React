@@ -6,7 +6,7 @@ const OtpInput = ({ onSubmit }) => {
 
   const handleChange = (e, index) => {
     const value = e.target.value;
-    if (!/^\d*$/.test(value)) return; // Allow only numeric input
+    if (!/^\d*$/.test(value)) return; 
 
     const newOtp = [...otp];
     newOtp[index] = value;

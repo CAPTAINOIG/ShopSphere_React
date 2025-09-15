@@ -16,7 +16,7 @@ import Footer from "../component/Footer";
 import { Toaster, toast } from "sonner";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { useGetOnsaleProducts, useGetProducts } from "../hooks/product";
+import { useGetOnsaleProducts, useGetProducts, usePostProductClick } from "../hooks/product";
 import WelcomePopup from "../hooks/WelcomePopup";
 import OnsaleCarousel from "./OnsaleCarousel";
 import Pagination from "../hooks/Pagination";
@@ -35,6 +35,8 @@ const OnSale = () => {
   const navigate = useNavigate();
 
   const { data: products, isLoading, isFetching, isError } = useGetProducts();
+  const { mutateAsync: postProductClick } = usePostProductClick();
+  
   const {
     data: onsaleProducts,
     isLoading: isLoadingOnsale,
@@ -67,18 +69,16 @@ const OnSale = () => {
     return () => clearInterval(timer);
   }, [currentPage]);
 
-  const handleProductClick = async (product) => {
-    const productId = product.id;
-    try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
-    } catch (error) {
-      console.error("Failed to send selected product:", error);
-      toast.error("Failed to fetch product details");
-    }
-  };
+ 
+   const handleProductClick = async (product) => {
+     try {
+       const response = await postProductClick({ productId: product.id });
+       navigate(`/product/${product.id}`);
+       window.scrollTo({ top: 0, behavior: "smooth" });
+     } catch (error) {
+       toast.error(error.message);
+     }
+   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -87,105 +87,6 @@ const OnSale = () => {
     indexOfLastProduct
   );
   const totalPages = Math.ceil(products?.length / productsPerPage);
-
-  // const handleAddToCart = async (product) => {
-  //   const productId = product.id;
-  //   try {
-  //     const response = await axiosInstance.post(`/return-product/${productId}`);
-  //     if (response.data) {
-  //       navigate(`/product/${productId}`);
-  //     }
-  //   } catch (error) {
-  //     toast.error("Failed to fetch product details");
-  //   }
-  // };
-
-  const ProductCard = ({ product }) => (
-    <div className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative overflow-hidden aspect-square">
-        <img
-          src={product?.images?.front || "/placeholder-product.jpg"}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {product.isHot && (
-            <div className="flex items-center bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-              <TrendingUp className="w-3 h-3 mr-1" />
-              HOT DEAL
-            </div>
-          )}
-          {product.originalPrice && (
-            <div className="flex items-center bg-gradient-to-r from-red-600 to-pink-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-              <AlertTriangle className="w-3 h-3 mr-1" />
-              {Math.round(
-                ((product.originalPrice - product.price) /
-                  product.originalPrice) *
-                  100
-              )}
-              % OFF
-            </div>
-          )}
-        </div>
-
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col gap-2">
-          <button className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors">
-            <Heart className="w-4 h-4" />
-          </button>
-          <button className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors">
-            <Eye className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart(product);
-            }}
-            className="w-full bg-black/90 backdrop-blur-sm text-white py-2 rounded-lg font-semibold hover:bg-black transition-colors flex items-center justify-center gap-2"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            Quick Add
-          </button>
-        </div> */}
-      </div>
-
-      <div className="p-4">
-        <div className="flex items-center gap-1 mb-1">
-          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-          <span className="text-sm font-medium">{product.rating || "4.5"}</span>
-          <span className="text-sm text-gray-500">
-            ({product.reviewCount || "24"})
-          </span>
-        </div>
-
-        <h3 className="font-semibold text-gray-900 mb-1 truncate">
-          {product.name}
-        </h3>
-        <p className="text-xs text-gray-500 mb-2">{product.brand || "Brand"}</p>
-
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-gray-900">${product.price}</span>
-          {product.originalPrice && (
-            <span className="text-sm text-gray-500 line-through">
-              ${product.originalPrice}
-            </span>
-          )}
-        </div>
-
-        {product.timeLeft && (
-          <div className="mt-2 pt-2 border-t border-gray-100">
-            <div className="flex items-center gap-1 text-xs text-red-500">
-              <Clock className="w-3 h-3" />
-              <span>Sale ends in {product.timeLeft}</span>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-gray-50">

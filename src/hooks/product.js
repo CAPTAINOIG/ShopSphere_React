@@ -1,6 +1,17 @@
 import axiosInstance from "../axiosInstance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+export const useNewsLetter = () => {
+  return useMutation({
+    mutationFn: async (email) => {
+      const response = await axiosInstance.post("/news", {
+        email,
+      });
+      return response.data;
+    },
+  });
+};
+
 export const useGetProducts = () => {
   return useQuery({
     queryKey: ["products"],
@@ -66,6 +77,15 @@ export const useGetNewArrivalsProducts = () => {
     queryKey: ["new-arrivals-products"],
     queryFn: async () => {
       const response = await axiosInstance.get("/category/Tops");
+      return response.data;
+    },
+  });
+};
+
+export const usePostProductClick = () => {
+  return useMutation({
+    mutationFn: async ({productId}) => {
+      const response = await axiosInstance.post(`/return-product/${productId}`);
       return response.data;
     },
   });

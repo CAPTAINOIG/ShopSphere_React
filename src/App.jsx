@@ -19,7 +19,6 @@ import NavbarLayout from './component/NavbarLayout';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const location = useLocation();
 
   const toggleIsOpen = () => setIsOpen(!isOpen);
@@ -37,13 +36,11 @@ function App() {
           element={
             <NavbarLayout
               openToggle={toggleIsOpen}
-              allProducts={allProducts}
-              setAllProducts={setAllProducts}
               isHidden={hideNavbar}
             />
           }
         >
-          <Route index element={<ProductDetails allProducts={allProducts} setAllProducts={setAllProducts} />} />
+          <Route index element={<ProductDetails />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

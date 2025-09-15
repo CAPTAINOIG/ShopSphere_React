@@ -59,9 +59,9 @@ const Footer = () => {
         <div>
           <h3 className='font-bold mb-2 hover:text-pink-600'>Contact</h3>
           <ul>
-            <li className="hover:text-pink-600">Email: support@example.com</li>
-            <li className="hover:text-pink-600">Phone: +123 456 7890</li>
-            <li className="hover:text-pink-600">Address: 123 Main St, City</li>
+            <li className="hover:text-pink-600">Email: abdullahisamsudeen@gmail.com</li>
+            <li className="hover:text-pink-600">Phone: 08137800288</li>
+            <li className="hover:text-pink-600">Address: Lagos City</li>
           </ul>
         </div>
       </div>

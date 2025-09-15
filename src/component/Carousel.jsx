@@ -10,7 +10,7 @@ const Carousel = () => {
           Discover our latest collection of exclusive products! Enjoy special discounts and offers tailored just for you. Shop now and elevate your style!
         </span>
         <span>
-          <Link className='underline' to="">Log in</Link>
+          <Link className='underline' to="/login">Log in</Link>
         </span>
       </div>
     </div>

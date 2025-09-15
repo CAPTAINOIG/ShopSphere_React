@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 
 const NavbarLayout = ({ openToggle, allProducts, setAllProducts, isHidden }) => {
+  
   return (
     <>
       {!isHidden && (

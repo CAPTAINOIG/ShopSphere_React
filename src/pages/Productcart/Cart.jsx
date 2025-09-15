@@ -34,14 +34,6 @@ const Cart = () => {
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState('right');
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onChange = (e) => {
-    setPlacement(e.target.value);
-  };
-
   const onClose = () => {
     setOpen(false);
   };
@@ -85,15 +77,12 @@ const Cart = () => {
       cart: cart,
       totalAmount: cartQuantity
     };
-
     try {
       setLoader(true)
       const response = await axiosInstance.post('/checkout', checkoutData)
       toast.success(`${response.data.message}`)
       setLoader(false)
-      // navigate('/gateway')
     } catch (error) {
-      console.log(error);
       setLoader(false);
       toast(`${response.data.messeage}`);
     }
@@ -116,8 +105,6 @@ const Cart = () => {
                 <IoGridSharp onClick={() => setViewMode('list')} className='cursor-pointer' />
                 <FaList onClick={() => setViewMode('grid')} className='cursor-pointer text-pink-500' />
               </div>
-
-              {/* Cart Items */}
               {cartData.length === 0 ? (
                 <p className="text-center text-lg font-semibold">No product found</p>
               ) : (
@@ -224,7 +211,6 @@ const Cart = () => {
       <Tops />
       <Footer />
     </div>
-
   );
 };
 

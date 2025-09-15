@@ -8,8 +8,11 @@ import Customer from '../customer/Customer';
 import Newsletter from '../component/Newsletter';
 import Footer from '../component/Footer';
 import WelcomePopup from '../hooks/WelcomePopup';
+import { useGetProducts } from '../hooks/product';
 
-const ProductDetails = ({ allProducts, setAllProducts }) => {
+const ProductDetails = () => {
+  // const { data: allProducts, isLoading, isError } = useGetProducts();
+
   return (
     <div>
       <Homepage />
@@ -17,7 +20,7 @@ const ProductDetails = ({ allProducts, setAllProducts }) => {
       <Smartphones />
       <WelcomePopup />
       <Wears />
-      <Allproducts allProducts={allProducts} setAllProducts={setAllProducts} />
+      <Allproducts />
       <Customer />
       <Newsletter />
       <Footer/>

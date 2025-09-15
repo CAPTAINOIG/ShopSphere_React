@@ -3,12 +3,14 @@ import axiosInstance from "../axiosInstance";
 import gif from "../assets/image/gif.gif";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
+import { usePostProductClick } from "../hooks/product";
 
 const Tops = () => {
   const [topData, setTopData] = useState([]);
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
+  const {mutateAsync: postProductClick} = usePostProductClick();
   useEffect(() => {
     sponsoredProducts();
   }, []);
@@ -26,13 +28,12 @@ const Tops = () => {
   };
 
   const handleProductClick = async (product) => {
-    const productId = product.id;
     try {
-      const response = await axiosInstance.post(`/return-product/${productId}`);
-      if (response.data) {
-        navigate(`/product/${productId}`);
-      }
+      const response = await postProductClick({ productId: product.id });
+      navigate(`/product/${product.id}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
+      toast.error(error.message);
     }
   };
 
